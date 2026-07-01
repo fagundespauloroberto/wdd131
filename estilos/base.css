@@ -1,0 +1,14 @@
+/* Estilos base para a página */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Roboto', sans-serif; /* Usando a fonte Roboto do Google Fonts */
+    background-color: #f0f0f0;
+    color: #333;
+    line-height: 1.6;
+}
