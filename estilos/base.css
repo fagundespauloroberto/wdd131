@@ -17,7 +17,7 @@ body {
     line-height: 1.6;
 }
 
-header, .grid, footer {
+header, main, footer {
     max-width: 840px;
     margin: 0 auto;
     padding: 0 1rem;
@@ -32,13 +32,14 @@ h1 {
     padding-bottom: 0.5rem;
 }
 
+/*
 h2 {
     font-family: 'Playfair Display', serif;
     font-weight: 600;
     color: steelblue;
     margin-bottom: 1rem;
     font-size: 1.4rem;
-}
+}*/
 
 p {
     margin-bottom: 1rem;
