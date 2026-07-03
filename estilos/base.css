@@ -1,0 +1,155 @@
+/* ==========================================================================
+   1. RESET & CONFIGURAÇÕES GERAIS
+   ========================================================================== */
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 400;
+    background-color: #f9f9f9;
+    color: #333;
+    line-height: 1.6;
+}
+
+header, .grid, footer {
+    max-width: 840px;
+    margin: 0 auto;
+    padding: 0 1rem;
+}
+
+h1 {
+    font-family: 'Playfair Display', serif;
+    font-weight: 400;
+    color: darkblue;
+    border-bottom: 1px solid #777;
+    margin: 1.5rem 0;
+    padding-bottom: 0.5rem;
+}
+
+h2 {
+    font-family: 'Playfair Display', serif;
+    font-weight: 600;
+    color: steelblue;
+    margin-bottom: 1rem;
+    font-size: 1.4rem;
+}
+
+p {
+    margin-bottom: 1rem;
+    text-align: justify;
+}
+
+/* ==========================================================================
+   2. NAVEGAÇÃO (HEADER)
+   ========================================================================== */
+
+nav {
+    background-color: steelblue;
+    padding: 1rem;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    border-radius: 0 0 4px 4px;
+}
+
+nav a {
+    display: block;
+    padding: 0.5rem;
+    text-decoration: none;
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #fff;
+    transition: color 0.2s ease;
+}
+
+nav a:hover {
+    color: #d1e2f2;
+}
+
+/* ==========================================================================
+   3. ESTRUTURA DE LAYOUT (GRID)
+   ========================================================================== */
+
+/* Container do Nome (Centralizado e alinhado com o restante) */
+.titulo-container {
+    max-width: 840px;
+    margin: 0 auto;
+    padding: 0 1rem;
+}
+
+.grid-main {
+    max-width: 840px;
+    margin: 1.5rem auto 0 auto;
+    padding: 0 1rem;
+    display: grid;
+    align-items: start;
+    grid-template-columns: 1fr; /* 1 coluna no celular */
+    gap: 1.5rem;
+}
+
+/* Quando a tela for grande o suficiente, vira duas colunas lado a lado */
+@media (min-width: 650px) {
+    .grid-main {
+        grid-template-columns: 1fr 1fr; /* Divide em duas colunas idênticas */
+    }
+}
+
+/* ==========================================================================
+   4. COMPONENTES (CARDS)
+   ========================================================================== */
+
+/* Garantia de estilização dos cards */
+.card {
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 1.5rem;
+    background-color: #fff;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+}
+
+/* Efeito de flutuação para o texto contornar a imagem lateralmente (Estilo Rubia) */
+.card img {
+    float: right;
+    margin-left: 1.2rem;
+    margin-bottom: 0.8rem;
+    width: 140px;
+    height: auto;
+    border: 1px solid #000;
+    padding: 3px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.15);
+}
+
+/* Limpa o fluxo do float para evitar quebra dos parágrafos inferiores */
+.card::after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+/* ==========================================================================
+   5. RODAPÉ (FOOTER)
+   ========================================================================== */
+
+footer {
+    margin-top: 3rem;
+    padding: 1.5rem 1rem;
+    border-top: 1px solid #333;
+    text-align: center;
+    background-color: steelblue;
+    color: #fff;
+}
+
+footer p {
+    text-align: center;
+    margin-bottom: 0.5rem;
+    font-size: 0.95rem;
+}
+
+footer p:last-child {
+    margin-bottom: 0;
+}
