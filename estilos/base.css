@@ -23,23 +23,16 @@ header, main, footer {
     padding: 0 1rem;
 }
 
-h1 {
+span#course-title {
     font-family: 'Playfair Display', serif;
     font-weight: 400;
     color: darkblue;
     border-bottom: 1px solid #777;
     margin: 1.5rem 0;
     padding-bottom: 0.5rem;
+    align-items: center;
 }
 
-/*
-h2 {
-    font-family: 'Playfair Display', serif;
-    font-weight: 600;
-    color: steelblue;
-    margin-bottom: 1rem;
-    font-size: 1.4rem;
-}*/
 
 p {
     margin-bottom: 1rem;
