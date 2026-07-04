@@ -1,6 +1,6 @@
-/****************************************************************************
+/************************************************************************
    1. CONFIGURAÇÕES GERAIS / RESET
-****************************************************************************/
+************************************************************/
 
 * {
     box-sizing: border-box;
@@ -27,9 +27,9 @@ p {
     text-align: justify;
 }
 
-/****************************************************************************
+/***********************************************************************
    2. NAVEGAÇÃO (HEADER)
-****************************************************************************/
+****************************************************************/
 
 nav {
     background-color: steelblue;
@@ -54,9 +54,9 @@ nav a:hover {
     color: #d1e2f2;
 }
 
-/****************************************************************************
+/*********************************************************************
    3. ESTRUTURA DE LAYOUT (GRID)
-****************************************************************************/
+*******************************************************************/
 
 #course-title {
   display: block;
@@ -80,16 +80,16 @@ h1 {
     margin-top: 1.5rem;
 }
 
-/* Quando a tela for maior, vira duas colunas lado a lado */
+/* Quando a tela for maior, vira duas colunas lado a lado, testessss */
 @media (min-width: 650px) {
     .grid-main {
         grid-template-columns: 1fr 1fr;
     }
 }
 
-/****************************************************************************
+/**************************************************************************
    4. COMPONENTES (CARDS)
-****************************************************************************/
+**********************************************************************/
 
 .card {
     background-color: #fff;
@@ -99,7 +99,6 @@ h1 {
     padding-bottom: 1.5rem; /* Espaço elegante no fim do card */
 }
 
-/* Transforma o H2 na barra de título azul escura */
 .card h2 {
     background-color: #1e4e79;
     color: #fff;
@@ -111,7 +110,6 @@ h1 {
     font-weight: 700;
 }
 
-/* Subtítulo interno (Xaxim, Santa Catarina) */
 .card h3 {
     text-align: center;
     border-bottom: 1px solid #bbb;
@@ -122,14 +120,13 @@ h1 {
     color: #1e4e79;
 }
 
-/* Alinhamento vertical interno para a lista de recursos */
 .middle {
     display: flex;
     flex-direction: column;
     justify-content: center;
+    height: 80%;
 }
 
-/* Espaçamento interno padrão para textos e conteúdos dos cards */
 .card p, 
 .card .middle {
     padding: 0 1.5rem;
@@ -147,7 +144,6 @@ h1 {
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.15);
 }
 
-/* Limpa o efeito flutuante para não quebrar os elementos seguintes */
 .card::after {
     content: "";
     display: table;
@@ -174,9 +170,9 @@ h1 {
     color: steelblue;
 }
 
-/****************************************************************************
+/**************************************************************************
    5. RODAPÉ (FOOTER)
-****************************************************************************/
+************************************************************************/
 
 footer {
     margin-top: 3rem;
