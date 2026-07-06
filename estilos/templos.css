@@ -93,8 +93,8 @@ h1.show {
 }
 
 main {
-  max-width: 900px;
-  margin: 1.5rem auto;
+  max-width: 800px;
+  margin: 0 auto;
   padding: 1rem;
 }
 
