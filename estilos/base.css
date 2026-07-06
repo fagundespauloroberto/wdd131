@@ -1,7 +1,6 @@
-
-/****************************************************************************
+/************************************************************************
    1. CONFIGURAÇÕES GERAIS / RESET
-   ****************************************************************************/
+************************************************************/
 
 * {
     box-sizing: border-box;
@@ -9,7 +8,7 @@
     padding: 0;
 }
 
-body {
+html, body {
     font-family: 'Roboto', sans-serif;
     font-weight: 400;
     background-color: #f9f9f9;
@@ -17,26 +16,10 @@ body {
     line-height: 1.6;
 }
 
-main, footer {
+header, main, footer, .titulo-container {
     max-width: 840px;
     margin: 0 auto;
     padding: 0 1rem;
-}
-
-header {
-    max-width: 840px;
-    margin: 0 auto;
-    padding: 0 1rem;
-}
-
-span#course-title {
-    font-family: 'Playfair Display', serif;
-    font-weight: 400;
-    color: darkblue;
-    border-bottom: 1px solid #777;
-    margin: 1.5rem 0;
-    padding-bottom: 0.5rem;
-    align-items: center;
 }
 
 p {
@@ -44,9 +27,9 @@ p {
     text-align: justify;
 }
 
-/****************************************************************************
+/***********************************************************************
    2. NAVEGAÇÃO (HEADER)
- ****************************************************************************/
+****************************************************************/
 
 nav {
     background-color: steelblue;
@@ -71,48 +54,85 @@ nav a:hover {
     color: #d1e2f2;
 }
 
-/****************************************************************************
+/*********************************************************************
    3. ESTRUTURA DE LAYOUT (GRID)
- ****************************************************************************/
+*******************************************************************/
 
-/* Container do Nome (Centralizado e alinhado com o restante) */
-.titulo-container {
-    max-width: 840px;
-    margin: 0 auto;
-    padding: 0 1rem;
+#course-title {
+  display: block;
+  font-size: 1.2rem;
+  padding: 1rem;
+  text-align: center;
+}
+
+h1 {
+  grid-column: 1/3;
+  font-size: 2rem;
+  margin: .5rem;
+  text-align: center;
 }
 
 .grid-main {
-    max-width: 840px;
-    margin: 1.5rem auto 0 auto;
-    padding: 0 1rem;
     display: grid;
     align-items: start;
     grid-template-columns: 1fr; /* 1 coluna no celular */
     gap: 1.5rem;
+    margin-top: 1.5rem;
 }
 
-/* Quando a tela for grande o suficiente, vira duas colunas lado a lado */
+/* Quando a tela for maior, vira duas colunas lado a lado, testessss */
 @media (min-width: 650px) {
     .grid-main {
-        grid-template-columns: 1fr 1fr; /* Divide em duas colunas idênticas */
+        grid-template-columns: 1fr 1fr;
     }
 }
 
-/****************************************************************************
+/**************************************************************************
    4. COMPONENTES (CARDS)
-   **************************************************************************/
+**********************************************************************/
 
-/* estilização dos cards */
 .card {
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    padding: 1.5rem;
     background-color: #fff;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    border-radius: 0.5rem;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    overflow: hidden; /* Garante que a faixa azul siga o arredondamento */
+    padding-bottom: 1.5rem; /* Espaço elegante no fim do card */
 }
 
-/* Efeito de flutuação para o texto contornar a imagem lateralmente (Estilo Rubia) */
+.card h2 {
+    background-color: #1e4e79;
+    color: #fff;
+    text-align: center;
+    padding: 0.75rem 1rem;
+    margin: 0 0 1.5rem 0;
+    font-size: 1.3rem;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 700;
+}
+
+.card h3 {
+    text-align: center;
+    border-bottom: 1px solid #bbb;
+    width: 80%;
+    margin: 1rem auto;
+    padding-bottom: 0.25rem;
+    font-family: 'Playfair Display', serif;
+    color: #1e4e79;
+}
+
+.middle {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 80%;
+}
+
+.card p, 
+.card .middle {
+    padding: 0 1.5rem;
+}
+
+/* Efeito de flutuação para o texto contornar a foto de perfil */
 .card img {
     float: right;
     margin-left: 1.2rem;
@@ -124,21 +144,39 @@ nav a:hover {
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.15);
 }
 
-/* Limpa o fluxo do float para evitar quebra dos parágrafos inferiores */
 .card::after {
     content: "";
     display: table;
     clear: both;
 }
 
-/* ==========================================================================
+/* Estilização da lista de recursos */
+.card ul {
+    list-style-type: disc;
+    margin-left: 1.5rem;
+}
+
+.card ul li {
+    margin-bottom: 0.6rem;
+}
+
+.card ul li a {
+    color: #002db3;
+    text-decoration: underline;
+    font-weight: 500;
+}
+
+.card ul li a:hover {
+    color: steelblue;
+}
+
+/**************************************************************************
    5. RODAPÉ (FOOTER)
-   ========================================================================== */
+************************************************************************/
 
 footer {
     margin-top: 3rem;
     padding: 1.5rem 1rem;
-    border-top: 1px solid #333;
     text-align: center;
     background-color: steelblue;
     color: #fff;
@@ -152,4 +190,9 @@ footer p {
 
 footer p:last-child {
     margin-bottom: 0;
+}
+
+#ultimaModificacao {
+    color: #ffeb3b; /* Amarelo destacado para a última modificação */
+    font-weight: 500;
 }
