@@ -1,10 +1,10 @@
 :root {
-  --purple: rgb(60, 10, 100);
-  --blue: rgb(29, 77, 114);
-  --blue-1: rgba(29, 77, 114, 0.1);
-  --blue-7: rgba(29, 77, 114, 0.7);
-  --brown: rgba(100, 50, 25, 1);
-  --yellow: rgba(255, 255, 0, 1);
+  --roxo: rgb(60, 10, 100);
+  --azul: rgb(29, 77, 114);
+  --azul-escuro: rgba(29, 77, 114, 0.1);
+  --azul-medio: rgba(29, 77, 114, 0.7);
+  --marron: rgba(100, 50, 25, 1);
+  --amarelo: rgba(255, 255, 0, 1);
 }
 
 * {
@@ -20,7 +20,7 @@ body {
 }
 
 header {
-  background-color: var(--purple);
+  background-color: var(--roxo);
   color: white;
   display: flex;
   flex-direction: row;
@@ -36,7 +36,7 @@ h1 {
 #hambutton {
   display: block;
   font-size: 3rem;
-  background-color: var(--purple);
+  background-color: var(--roxo);
   text-decoration: none;
   color: white;
   border: none;
@@ -70,12 +70,12 @@ nav a {
 
 nav a:hover,
 nav a:active {
-  color: var(--yellow);
+  color: var(--amarelo);
   font-weight: 700;
 }
 
-nav a:hover~#navmenu~#hambutton {
-  background-color: var(---yellow);
+nav a:hover #nav menu #hambutton {
+  background-color: var(---amarelo);
   color: #000;
 }
 
@@ -120,11 +120,11 @@ figure {
 
 figcaption {
   text-align: center;
-  color: var(--purple);
+  color: var(--roxo);
 }
 
 footer {
-  background-color: var(--purple);
+  background-color: var(--roxo);
   color: white;
   text-align: center;
   padding: 10px;
