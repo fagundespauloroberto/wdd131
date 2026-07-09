@@ -1,10 +1,10 @@
 :root {
-  --roxo: rgb(60, 10, 100);
+  --roxo: rgb(79, 17, 131);
   --azul: rgb(29, 77, 114);
-  --azul-escuro: rgba(29, 77, 114, 0.1);
-  --azul-medio: rgba(29, 77, 114, 0.7);
-  --marron: rgba(100, 50, 25, 1);
-  --amarelo: rgba(255, 255, 0, 1);
+  --azul-escuro: rgba(15, 45, 68, 0.1);
+  --azul-medio: rgba(28, 91, 139, 0.7);
+  --marron: rgb(87, 41, 18);
+  --amarelo: rgb(241, 241, 8);
 }
 
 * {
@@ -55,6 +55,10 @@ h1 {
   content: "X";
 }
 
+/********************************
+  navegação
+  ***************************/
+
 nav {
   display: flex;
   flex-direction: column;
@@ -74,7 +78,9 @@ nav a:active {
   font-weight: 700;
 }
 
-nav a:hover #nav menu #hambutton {
+nav a:hover, 
+#navmenu,
+#hambutton {
   background-color: var(---amarelo);
   color: #000;
 }
@@ -82,6 +88,10 @@ nav a:hover #nav menu #hambutton {
 nav.show {
   width: 100%;
 }
+
+/****************************
+
+****************************/
 
 h1.show {
   display: none;
@@ -122,6 +132,10 @@ figcaption {
   text-align: center;
   color: var(--roxo);
 }
+
+/***************************
+  rodape 
+ **************************/
 
 footer {
   background-color: var(--roxo);
