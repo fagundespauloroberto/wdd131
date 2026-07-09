@@ -1,5 +1,5 @@
 :root {
-  --roxo: rgb(79, 17, 131);
+  --roxo: rgb(109, 100, 18);
   --azul: rgb(29, 77, 114);
   --azul-escuro: rgba(15, 45, 68, 0.1);
   --azul-medio: rgba(28, 91, 139, 0.7);
@@ -65,7 +65,7 @@ nav {
 }
 
 nav a {
-  color: white;
+  color: rgb(103, 173, 71);
   text-decoration: none;
   padding: 1rem 1.5rem;
   display: none;
