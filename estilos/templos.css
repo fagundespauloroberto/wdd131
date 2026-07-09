@@ -81,7 +81,7 @@ nav a:active {
 nav a:hover, 
 #navmenu,
 #hambutton {
-  background-color: var(---amarelo);
+  background-color: #ffeb3b;
   color: #000;
 }
 
