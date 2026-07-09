@@ -3,12 +3,12 @@
 ****************************************************************/
 
 :root {
-  --purple: rgb(60, 10, 100);
-  --blue: rgb(29, 77, 114);
-  --blue-1: rgba(29, 77, 114, 0.1);
-  --blue-7: rgba(29, 77, 114, 0.7);
-  --brown: rgba(100, 50, 25, 1);
-  --yellow: rgba(255, 255, 0, 1);
+  --roxo: rgb(109, 100, 18);
+  --azul: rgb(29, 77, 114);
+  --azul-escuro: rgba(15, 45, 68, 0.1);
+  --azul-medio: rgba(28, 91, 139, 0.7);
+  --marron: rgb(87, 41, 18);
+  --amarelo: rgb(241, 241, 8);
 }
 
 /***********************************************************************
@@ -28,7 +28,7 @@ body {
 }
 
 header {
-  background-color: var(--purple);
+  background-color: var(--roxo);
   color: white;
   display: flex;
   flex-direction: row;
@@ -44,7 +44,7 @@ h1 {
 #hambutton {
   display: block;
   font-size: 3rem;
-  background-color: var(--purple);
+  background-color: var(--roxo);
   text-decoration: none;
   color: white;
   border: none;
@@ -63,9 +63,9 @@ h1 {
   content: "X";
 }
 
-/***********************************************************************
-   3. NAVEGAÇÃO (HEADER)
-****************************************************************/
+/********************************
+  navegação
+  ***************************/
 
 nav {
   display: flex;
@@ -73,7 +73,7 @@ nav {
 }
 
 nav a {
-  color: white;
+  color: rgb(36, 90, 11);
   text-decoration: none;
   padding: 1rem 1.5rem;
   display: none;
@@ -82,12 +82,14 @@ nav a {
 
 nav a:hover,
 nav a:active {
-  color: var(--yellow);
+  color: var(--amarelo);
   font-weight: 700;
 }
 
-nav a:hover~#navmenu~#hambutton {
-  background-color: var(---yellow);
+nav a:hover, 
+#navmenu,
+#hambutton {
+  background-color: #ffeb3b;
   color: #000;
 }
 
@@ -95,9 +97,10 @@ nav.show {
   width: 100%;
 }
 
-/*********************************************************************
-   4. ESTRUTURA DE LAYOUT (GRID)
-*******************************************************************/
+
+/****************************
+
+****************************/
 
 h1.show {
   display: none;
@@ -107,6 +110,10 @@ h1.show {
   display: block;
   text-align: center;
 }
+
+/****************************
+  main
+  ************************/
 
 main {
   max-width: 800px;
@@ -136,15 +143,15 @@ figure {
 
 figcaption {
   text-align: center;
-  color: var(--purple);
+  color: var(--roxo);
 }
 
-/*********************************************************************
-   5. RODAPÉ (FOOTER)
-*******************************************************************/
+/***************************
+  rodape 
+ **************************/
 
 footer {
-  background-color: var(--purple);
+  background-color: var(--roxo);
   color: white;
   text-align: center;
   padding: 10px;
