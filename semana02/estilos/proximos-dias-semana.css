@@ -1,0 +1,14 @@
+body {
+	margin: 0.5rem auto;
+	padding: 0;
+	width: 600px;
+}
+
+h1 {
+	text-align: center;
+}
+p {
+	background-color: #eee;
+	border: 1px solid #999;
+	padding: 0.35rem;
+}
