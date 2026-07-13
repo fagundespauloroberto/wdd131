@@ -15,7 +15,7 @@
   <link rel="stylesheet" href="styles/local.css">
   <script defer src="scripts/local.js"></script>
 
-  <script src="scripts/getdates.js" defer></script>
+  <script src="scripts/obterdatas.js" defer></script>
 </head>
 
 <body>
@@ -30,20 +30,20 @@
 
     <picture>
       <source srcset="images/santa-catarina-lg.webp" media="(min-width: 750px)">
-      <img src="images/santa-catarina-sm.webp" alt="Lêmures de Santa Catarina = Heróis" width="320" height="480">
+      <img src="images/santa-catarina-sm.webp" alt="Santa Catarina = Heróis" width="320" height="480">
     </picture>
 
     <section class="card info">
       <h2>Dados</h2>
       <div class="col-2">
-        <span class="label">Área:</span><span class="value">587.041 km²</span>
-        <span class="label">População:</span><span class="value">27.691.018</span>
-        <span class="label">Capital:</span><span class="value">Antananarivo</span>
-        <span class="label">Idiomas:</span><span class="value">Malgaxe, Francês</span>
-        <span class="label">Moeda:</span><span class="value">Ariary Malgaxe</span>
-        <span class="label">Fuso Horário:</span><span class="value">UTC+3</span>
-        <span class="label">Código de Chamada:</span><span class="value">+261</span>
-        <span class="label">Domínio de Internet:</span><span class="value">.mg</span>
+        <span class="label">Área:</span><span class="value"></span>
+        <span class="label">População:</span><span class="value"></span>
+        <span class="label">Capital:</span><span class="value"></span>
+        <span class="label">Idiomas:</span><span class="value"></span>
+        <span class="label">Moeda:</span><span class="value"></span>
+        <span class="label">Fuso Horário:</span><span class="value"></span>
+        <span class="label">Código de Chamada:</span><span class="value"></span>
+        <span class="label">Domínio de Internet:</span><span class="value"></span>
       </div>
     </section>
 
@@ -135,8 +135,8 @@
   </main>
 
   <footer>
-    <p>&copy; 2026 | Paulo Fagundes | Santa Catarina, Brasil</p>
-    <p class="highlight" id="lastModified">Última Modificação: 01/01/1970 12:00:00</p>
+    <p>&copy; <span id="ano-atual"></span> (❖): Paulo Fagundes (❖): Xaxim, Santa Catarina, Brasil</p>
+    <p>Última modificação: <span id="ultima-modificacao"></span></p>
   </footer>
 
 </body>
