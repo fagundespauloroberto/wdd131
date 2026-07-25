@@ -69,12 +69,12 @@ nav a {
 
 nav a:hover,
 .active {
-  color: var(--yellow);
+  color: var(--green);
   font-weight: 700;
 }
 
-nav a:hover~#navmenu~#hambutton {
-  background-color: var(---yellow);
+nav a:hover ~ #navmenu ~ #hambutton {
+  background-color: var(--green);
   color: #000;
 }
 
