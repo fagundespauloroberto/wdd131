@@ -1,27 +1,27 @@
 const produtos = [
   {
     id: "fc-1888",
-    nome: "capacitor de fluxo",
+    nome: "Combo: Hamburguer + fritas + Coca lata ",
     classificacaomedia: 4.5
   },
   {
     id: "fc-2050",
-    nome: "fios elétricos",
+    nome: "Pizza GG com borda",
     classificacaomedia: 4.7
   },
   {
     id: "fs-1987",
-    nome: "circuitos de tempo",
+    nome: "Combo: Porção de camarão + Batatas fritas",
     classificacaomedia: 3.5
   },
   {
     id: "ac-2000",
-    nome: "reator de baixa tensão",
+    nome: "Combo: Pizza G + Pizza P + Coca-Cola 2Ltrs.",
     classificacaomedia: 3.9
   },
   {
     id: "jj-1969",
-    nome: "equalizador de distorção",
+    nome: "Combo Saudavél: Suco 300ml + Sanduiche Natural",
     classificacaomedia: 5.0
   }
 ];
