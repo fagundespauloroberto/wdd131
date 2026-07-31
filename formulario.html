@@ -15,6 +15,8 @@
   <link rel="stylesheet" href="estilos/formulario.css">
   <script defer src="scripts/formulario.js"></script>
   <script src="scripts/getdates.js" defer></script>
+  <script src="scripts/getdates.js" defer></script>
+
 </head>
 
 <body>
@@ -23,31 +25,35 @@
     
   </header>
   <main>
-    <form action="review.html" method="get">
+    <form action="avaliacao.html" method="get">
 
       <div class="item">
         <label for="product_name">Nome do Produto</label>
         <select id="product_name" name="product_name" required>
-          <option value="" selected disabled>Escolha um Produto...</option>
-          <option value="product1">Produto 1</option>
-          <option value="product2">Produto 2</option>
-          <option value="product3">Produto 3</option>
+          <option value="" selected disabled>Selecione um Produto...</option>
+          <option value="product1">Produto 01</option>
+          <option value="product2">Produto 02</option>
+          <option value="product3">Produto 03</option>
         </select>
       </div>
 
       <div class="item">
         <p>Avaliação Geral</p>
         <div class="radio-group">
+          <input type="radio" id="overall-1" name="overall" value="1" required>
           <label for="overall-1">&star;</label>
+
+          <input type="radio" id="overall-2" name="overall" value="2" required>
           <label for="overall-2">&star;&star;</label>
+
+          <input type="radio" id="overall-3" name="overall" value="3" required>
           <label for="overall-3">&star;&star;&star;</label>
+
+          <input type="radio" id="overall-4" name="overall" value="4" required>
           <label for="overall-4">&star;&star;&star;&star;</label>
+
+          <input type="radio" id="overall-5" name="overall" value="5" required>
           <label for="overall-5">&star;&star;&star;&star;&star;</label>
-          <input type="radio" id="overall-1" name="overall" required>
-          <input type="radio" id="overall-2" name="overall" required>
-          <input type="radio" id="overall-3" name="overall" required>
-          <input type="radio" id="overall-4" name="overall" required>
-          <input type="radio" id="overall-5" name="overall" required>
         </div>
       </div>
 

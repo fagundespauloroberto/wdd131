@@ -1,7 +1,10 @@
 :root {
-  --back1: rgba(44, 4, 44, 1);
+  /*--back1: rgba(44, 4, 44, 1);
   --back2: rgba(44, 4, 44, .2);
-  --border: rgba(0, 0, 0, .1);
+  --border: rgba(0, 0, 0, .1);*/
+  --back1: #1E3A8A;
+  --back2: #3B82F6;
+  --border: #F8FAFC;
 }
 
 * {
