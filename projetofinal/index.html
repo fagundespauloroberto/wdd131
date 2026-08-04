@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patinhas Conectadas — Encontre seu novo amigo</title>
+    
+    <!-- Tipografia Definida no Planejamento: Montserrat + Open Sans -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="estilos/main.css">
+</head>
+<body>
+
+    <!-- CABEÇALHO E NAVEGAÇÃO -->
+    <header class="navbar">
+        <div class="container nav-container">
+            <a href="#" class="logo">Patinhas Conectadas 🐾</a>
+            
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="#pets">Quero Adotar</a></li>
+                    <li><a href="#como-funciona">Como Funciona</a></li>
+                    <li><a href="#sobre">Sobre Nós</a></li>
+                </ul>
+            </nav>
+
+            <div class="nav-actions">
+                <a href="#" class="btn btn-secondary">Área da ONG / Doador</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- BANNER PRINCIPAL (HERO SECTION) -->
+    <section class="hero">
+        <div class="container hero-content">
+            <h1>Conectando patas a novos lares 🐾</h1>
+            <p>Sua plataforma de adoção responsável. Encontre cães e gatos resgatados por ONGs e protetores próximos de você.</p>
+            
+            <!-- BARRA DE FILTROS RÁPIDOS (Consulta Pública) -->
+            <form class="search-bar">
+                <div class="form-group">
+                    <label for="especie">Espécie</label>
+                    <select id="especie" name="especie">
+                        <option value="">Todas</option>
+                        <option value="cachorro">Cão</option>
+                        <option value="gato">Gato</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="porte">Porte</label>
+                    <select id="porte" name="porte">
+                        <option value="">Todos</option>
+                        <option value="pequeno">Pequeno</option>
+                        <option value="medio">Médio</option>
+                        <option value="grande">Grande</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="cidade">Cidade/Estado</label>
+                    <input type="text" id="cidade" placeholder="Ex: Chapecó, SC">
+                </div>
+
+                <button type="submit" class="btn btn-primary">Buscar Pet</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- LISTAGEM DE ANIMAIS (CARDS) -->
+    <main class="container" id="pets">
+        <div class="section-title">
+            <h2>Amigos esperando por um lar</h2>
+            <p>Conheça os animais disponíveis para adoção responsável</p>
+        </div>
+
+        <div class="pet-grid">
+            
+            <!-- Card 1 -->
+            <article class="pet-card">
+                <div class="pet-badge">Disponível</div>
+                <img src="https://images.unsplash.com/photo-1543466835-00a7907e9de1?auto=format&fit=crop&w=500&q=80" alt="Foto do Cão Thor" class="pet-image">
+                
+                <div class="pet-info">
+                    <h3>Thor</h3>
+                    <div class="pet-tags">
+                        <span>Cachorro</span> • <span>Porte Médio</span> • <span>2 anos</span>
+                    </div>
+                    <p class="pet-description">Dócil, muito brincalhão e se dá super bem com crianças e outros animais. Já vacinado e castrado.</p>
+                    <p class="pet-location">📍 Chapecó, SC</p>
+                    
+                    <!-- Botão Direto para o WhatsApp do Doador -->
+                    <a href="https://wa.me/5549999999999?text=Olá!%20Tenho%20interesse%20em%20adotar%20o%20Thor" target="_blank" class="btn btn-whatsapp">
+                        Quero Adotar (WhatsApp)
+                    </a>
+                </div>
+            </article>
+
+            <!-- Card 2 -->
+            <article class="pet-card">
+                <div class="pet-badge">Disponível</div>
+                <img src="https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?auto=format&fit=crop&w=500&q=80" alt="Foto da Gata Luna" class="pet-image">
+                
+                <div class="pet-info">
+                    <h3>Luna</h3>
+                    <div class="pet-tags">
+                        <span>Gato</span> • <span>Porte Pequeno</span> • <span>6 meses</span>
+                    </div>
+                    <p class="pet-description">Resgatada recentemente, muito carinhosa e adora dormir no colo. Fiv/Felv negativa.</p>
+                    <p class="pet-location">📍 Xaxim, SC</p>
+                    
+                    <a href="https://wa.me/5549999999999?text=Olá!%20Tenho%20interesse%20em%20adotar%20a%20Luna" target="_blank" class="btn btn-whatsapp">
+                        Quero Adotar (WhatsApp)
+                    </a>
+                </div>
+            </article>
+
+            <!-- Card 3 -->
+            <article class="pet-card">
+                <div class="pet-badge">Disponível</div>
+                <img src="https://images.unsplash.com/photo-1583511655857-d19b40a7a54e?auto=format&fit=crop&w=500&q=80" alt="Foto do Cão Bob" class="pet-image">
+                
+                <div class="pet-info">
+                    <h3>Bob</h3>
+                    <div class="pet-tags">
+                        <span>Cachorro</span> • <span>Porte Grande</span> • <span>4 anos</span>
+                    </div>
+                    <p class="pet-description">Excelente cão de guarda e muito fiel. Ideal para quem possui casa com quintal amplo.</p>
+                    <p class="pet-location">📍 Chapecó, SC</p>
+                    
+                    <a href="https://wa.me/5549999999999?text=Olá!%20Tenho%20interesse%20em%20adotar%20o%20Bob" target="_blank" class="btn btn-whatsapp">
+                        Quero Adotar (WhatsApp)
+                    </a>
+                </div>
+            </article>
+
+        </div>
+    </main>
+
+    <!-- SEÇÃO COMO FUNCIONA -->
+    <section class="how-it-works" id="como-funciona">
+        <div class="container">
+            <div class="section-title">
+                <h2>Como Funciona a Adoção?</h2>
+                <p>Três passos simples para encontrar seu novo melhor amigo</p>
+            </div>
+
+            <div class="steps-grid">
+                <div class="step-card">
+                    <div class="step-number">1</div>
+                    <h3>Encontre seu Pet</h3>
+                    <p>Filtre por espécie, porte e localização para encontrar os animais disponíveis na sua região.</p>
+                </div>
+
+                <div class="step-card">
+                    <div class="step-number">2</div>
+                    <h3>Fale no WhatsApp</h3>
+                    <p>Clique no botão de contato direto para conversar sem intermediários com o responsável ou ONG.</p>
+                </div>
+
+                <div class="step-card">
+                    <div class="step-number">3</div>
+                    <h3>Adoção Responsável</h3>
+                    <p>Combine a entrevista, visite o pet e faça a adoção consciente e cheia de carinho.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- RODAPÉ -->
+    <footer>
+        <div class="container footer-content">
+            <p>&copy; 2026 Patinhas Conectadas 🐾 — Todos os direitos reservados.</p>
+            <p>Desenvolvido para incentivar a adoção consciente e apoiar ONGs e protetores independentes.</p>
+        </div>
+    </footer>
+
+</body>
+</html>
