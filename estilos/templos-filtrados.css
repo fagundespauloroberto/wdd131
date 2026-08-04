@@ -4,7 +4,7 @@
   --blue-1: rgba(29, 77, 114, 0.1);
   --blue-7: rgba(29, 77, 114, 0.7);
   --brown: rgba(100, 50, 25, 1);
-  --yellow: rgba(255, 255, 0, 1);
+  --green: rgb(87, 223, 109);
 }
 
 * {
@@ -69,12 +69,12 @@ nav a {
 
 nav a:hover,
 .active {
-  color: var(--yellow);
+  color: var(--green);
   font-weight: 700;
 }
 
-nav a:hover~#navmenu~#hambutton {
-  background-color: var(---yellow);
+nav a:hover ~ #navmenu ~ #hambutton {
+  background-color: var(--green);
   color: #000;
 }
 
