@@ -2,8 +2,8 @@
    ESTILOS GERAIS & VARIÁVEIS (Conforme Planejamento S05)
    ========================================================= */
 :root {
-    --primary-color: #0d9488;      /* Verde Esmeralda / Teal */
-    --accent-color: #f97316;       /* Laranja Quente */
+    --primary-color: #1E3A8A;
+    --accent-color: #3B82F6;
     --accent-hover: #ea580c;
     --whatsapp-color: #25d366;
     --whatsapp-hover: #1da851;
@@ -342,4 +342,65 @@ footer {
     .form-group, .search-bar .btn {
         width: 100%;
     }
+}
+
+/* =========================================================
+   ESTILOS DOS FORMULÁRIOS DE CADASTRO (CADASTRO.HTML)
+   ========================================================= */
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 2rem;
+}
+
+.card-form {
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    padding: 1.8rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.card-form h3 {
+    color: var(--primary-color);
+    font-size: 1.3rem;
+    margin-bottom: 0.2rem;
+}
+
+.form-subtitle {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    margin-bottom: 1.5rem;
+}
+
+.form-group-full {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1rem;
+}
+
+.form-group-full label {
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin-bottom: 0.3rem;
+    color: var(--text-color);
+}
+
+.form-group-full input,
+.form-group-full select,
+.form-group-full textarea {
+    padding: 0.65rem;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    font-family: var(--font-body);
+    font-size: 0.95rem;
+}
+
+.form-row {
+    display: flex;
+    gap: 1rem;
+}
+
+.form-row .form-group-full {
+    flex: 1;
 }

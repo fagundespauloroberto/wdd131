@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro — Patinhas Conectadas 🐾</title>
+
+    <!-- Tipografia Padrão: Montserrat + Open Sans -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+
+    <!-- CSS Principal -->
+    <link rel="stylesheet" href="estilos/main.css">
+
+    <!-- Supabase SDK (CDN) -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <!-- Arquivo JavaScript -->
+    <script src="scripts/cadastro.js"></script>
+</head>
+<body>
+
+    <!-- CABEÇALHO -->
+    <header class="navbar">
+        <div class="container nav-container">
+            <a href="index.html" class="logo">Patinhas Conectadas 🐾</a>
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="index.html#pets">Quero Adotar</a></li>
+                    <li><a href="index.html#como-funciona">Como Funciona</a></li>
+                </ul>
+            </nav>
+            <div class="nav-actions">
+                <a href="index.html" class="btn btn-secondary">Voltar ao Início</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- SEÇÃO DE FORMULÁRIOS -->
+    <main class="container" style="margin-top: 2.5rem; margin-bottom: 4rem;">
+        
+        <div class="section-title">
+            <h2>Área do Doador / ONG</h2>
+            <p>Cadastre-se como doador e disponibilize animais para adoção responsável</p>
+        </div>
+
+        <div class="form-grid">
+
+            <!-- FORMULÁRIO 1: CADASTRO DO DOADOR -->
+            <section class="card-form">
+                <h3>1. Dados do Doador / ONG</h3>
+                <p class="form-subtitle">Preencha seus dados de contato para que os adotantes falem com você.</p>
+                
+                <form id="formDoador">
+                    <div class="form-group-full">
+                        <label for="doadorNome">Nome Completo ou Nome da ONG *</label>
+                        <input type="text" id="doadorNome" required placeholder="Ex: ONG Patas de Luz ou João Silva">
+                    </div>
+
+                    <div class="form-group-full">
+                        <label for="doadorEmail">E-mail *</label>
+                        <input type="email" id="doadorEmail" required placeholder="seu@email.com">
+                    </div>
+
+                    <div class="form-group-full">
+                        <label for="doadorWhatsapp">WhatsApp (com DDD) *</label>
+                        <input type="tel" id="doadorWhatsapp" required placeholder="49999999999">
+                    </div>
+
+                    <div class="form-group-full">
+                        <label for="doadorLocalizacao">Cidade/Estado *</label>
+                        <input type="text" id="doadorLocalizacao" required placeholder="Ex: Chapecó, SC">
+                    </div>
+
+                    <div class="form-group-full">
+                        <label for="doadorTipo">Tipo de Doador</label>
+                        <select id="doadorTipo">
+                            <option value="Pessoa Física">Pessoa Física</option>
+                            <option value="ONG">ONG / Protetor Independente</option>
+                        </select>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 1rem;">
+                        Cadastrar Doador
+                    </button>
+                </form>
+            </section>
+
+            <!-- FORMULÁRIO 2: CADASTRO DO ANIMAL -->
+            <section class="card-form">
+                <h3>2. Cadastrar Animal para Adoção</h3>
+                <p class="form-subtitle">Informe os dados do pet que será exibido na listagem principal.</p>
+                
+                <form id="formAnimal">
+                    <div class="form-group-full">
+                        <label for="selectDoador">Doador Responsável *</label>
+                        <select id="selectDoador" required>
+                            <option value="">Selecione o doador cadastrado...</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group-full">
+                        <label for="animalNome">Nome do Pet *</label>
+                        <input type="text" id="animalNome" required placeholder="Ex: Thor">
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group-full">
+                            <label for="animalEspecie">Espécie *</label>
+                            <select id="animalEspecie" required>
+                                <option value="Cachorro">Cachorro</option>
+                                <option value="Gato">Gato</option>
+                                <option value="Outros">Outros</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group-full">
+                            <label for="animalPorte">Porte *</label>
+                            <select id="animalPorte" required>
+                                <option value="Pequeno">Pequeno</option>
+                                <option value="Médio">Médio</option>
+                                <option value="Grande">Grande</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group-full">
+                            <label for="animalIdade">Idade Aproximada</label>
+                            <input type="text" id="animalIdade" placeholder="Ex: Filhote, 2 anos">
+                        </div>
+
+                        <div class="form-group-full">
+                            <label for="animalStatus">Status</label>
+                            <select id="animalStatus">
+                                <option value="Disponível">Disponível</option>
+                                <option value="Reservado">Reservado</option>
+                                <option value="Adotado">Adotado</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group-full">
+                        <label for="animalFoto">URL da Foto do Pet *</label>
+                        <input type="url" id="animalFoto" required placeholder="https://exemplo.com/foto.jpg">
+                    </div>
+
+                    <div class="form-group-full">
+                        <label for="animalDescricao">História / Descrição *</label>
+                        <textarea id="animalDescricao" rows="3" required placeholder="Conte um pouco sobre o temperamento, vacinas, castração..."></textarea>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 1rem; background-color: var(--primary-color);">
+                        Salvar e Publicar Pet
+                    </button>
+                </form>
+            </section>
+
+        </div>
+    </main>
+
+    <!-- RODAPÉ -->
+    <footer>
+        <div class="container footer-content">
+            <p>&copy; 2026 Patinhas Conectadas 🐾 — Área de Gestão de Cadastros</p>
+        </div>
+    </footer>
+</body>
+</html>
