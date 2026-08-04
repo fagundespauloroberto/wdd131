@@ -11,6 +11,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
 
     <link rel="stylesheet" href="estilos/main.css">
+    <script src="scripts/index.js" defer></script>
 </head>
 <body>
 
@@ -77,8 +78,10 @@
             <p>Conheça os animais disponíveis para adoção responsável</p>
         </div>
 
-        <div class="pet-grid">
+        <div id="gridAnimais" class="pet-grid">
             
+            <p class="loading-text">Carregando animais cadastrados...</p>
+
             <!-- Card 1 -->
             <article class="pet-card">
                 <div class="pet-badge">Disponível</div>
