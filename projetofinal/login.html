@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patinhas Conectadas 🐾 — Entrar ou Criar Conta</title>
+    
+    <link rel="stylesheet" href="styles/main.css">
+    
+    <!-- Supabase SDK -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="scripts/login.js" defer></script>
+</head>
+<body>
+
+    <header class="navbar">
+        <div class="container nav-container">
+            <a href="index.html" class="logo">Patinhas Conectadas 🐾</a>
+        </div>
+    </header>
+
+    <main class="container" style="max-width: 480px; margin-top: 3rem; margin-bottom: 3rem;">
+        <div class="card-form">
+            <h2 id="tituloForm">Acessar Área do Doador</h2>
+            <p id="subtituloForm" style="color: #64748b; margin-bottom: 1.5rem;">
+                Entre com seus dados para gerenciar cadastros de pets.
+            </p>
+
+            <form id="formAuth">
+                <!-- Campo exclusivo do cadastro -->
+                <div class="form-group" id="grupoNome" style="display: none;">
+                    <label for="nomeDoador">Nome Completo ou Nome da ONG *</label>
+                    <input type="text" id="nomeDoador" placeholder="Ex: ONG Patas de Luz">
+                </div>
+
+                <div class="form-group">
+                    <label for="email">E-mail *</label>
+                    <input type="email" id="email" required placeholder="seu@email.com">
+                </div>
+
+                <div class="form-group">
+                    <label for="senha">Senha *</label>
+                    <input type="password" id="senha" required placeholder="******">
+                </div>
+
+                <!-- Campo exclusivo do cadastro -->
+                <div class="form-group" id="grupoWhatsapp" style="display: none;">
+                    <label for="whatsappDoador">WhatsApp (com DDD) *</label>
+                    <input type="tel" id="whatsappDoador" placeholder="49999999999">
+                </div>
+
+                <button type="submit" id="btnSubmit" class="btn btn-primary" style="width: 100%; margin-top: 1rem;">
+                    Entrar
+                </button>
+            </form>
+
+            <div style="margin-top: 1.5rem; text-align: center;">
+                <p id="textoAlternar">
+                    Ainda não tem conta? <a href="#" id="linkAlternar">Cadastre-se aqui</a>
+                </p>
+            </div>
+        </div>
+    </main>
+
+</body>
+</html>
