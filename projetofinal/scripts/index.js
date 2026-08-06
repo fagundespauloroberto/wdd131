@@ -1,7 +1,7 @@
 // scripts/index.js
 
 const SUPABASE_URL = 'https://wasodctryfmajucxsqed.supabase.co';
-const SUPABASE_KEY = 'SUA_CHAVE_ANON_JWT';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Indhc29kY3RyeWZtYWp1Y3hzcWVkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQ3MTMyOTEsImV4cCI6MjEwMDI4OTI5MX0.5hQepY49znD3ENz1eGPaFSa9n2Or0PBng5VMuvini7o';
 
 const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
@@ -25,7 +25,7 @@ async function carregarAnimais() {
     if (!gridAnimais) return;
 
     try {
-        // Consulta na tabela animais trazendo as informações do perfil do doador
+        // Especifica explicitamente a FK (profiles!doador_id) no select
         const { data: animais, error } = await _supabase
             .from('animais')
             .select(`
@@ -37,7 +37,8 @@ async function carregarAnimais() {
                 descricao,
                 url_foto,
                 status,
-                profiles (
+                doador_id,
+                profiles!fk_animais_profiles (
                     nome,
                     whatsapp
                 )
@@ -60,8 +61,8 @@ function renderizarCards(animais) {
     const gridAnimais = document.getElementById('gridAnimais');
     gridAnimais.innerHTML = '';
 
-    if (animais.length === 0) {
-        gridAnimais.innerHTML = '<p class="no-pets">Nenhum animal encontrado com os filtros selecionados.</p>';
+    if (!animais || animais.length === 0) {
+        gridAnimais.innerHTML = '<p class="no-pets">Nenhum animal encontrado no momento.</p>';
         return;
     }
 
@@ -70,12 +71,13 @@ function renderizarCards(animais) {
     animais.forEach(pet => {
         const fotoUrl = (pet.url_foto && pet.url_foto.trim() !== '') ? pet.url_foto : FOTO_PADRAO;
         
-        // Dados do doador vindos do relacionamento
-        const nomeDoador = pet.profiles?.nome || 'Doador';
-        const numWhatsapp = pet.profiles?.whatsapp ? pet.profiles.whatsapp.replace(/\D/g, '') : '';
+        // Trata os dados do perfil obtidos pelo relacionamento
+        const perfil = pet.profiles;
+        const nomeDoador = perfil?.nome || 'Doador Responsável';
+        const numWhatsapp = perfil?.whatsapp ? perfil.whatsapp.replace(/\D/g, '') : '';
 
-        // Formatação da mensagem para o WhatsApp
-        const mensagemWa = encodeURIComponent(`Olá ${nomeDoador}! Vi o anúncio do(a) ${pet.nome} no Patinhas Conectadas e gostaria de saber mais sobre a adoção.`);
+        // Monta o link do WhatsApp
+        const mensagemWa = encodeURIComponent(`Olá ${nomeDoador}! Vi o anúncio do(a) ${pet.nome} no Patinhas Conectadas e gostaria de mais informações sobre a adoção.`);
         const linkWa = numWhatsapp ? `https://wa.me/55${numWhatsapp}?text=${mensagemWa}` : '#';
 
         const card = document.createElement('article');

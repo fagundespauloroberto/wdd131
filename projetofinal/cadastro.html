@@ -9,7 +9,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
 
-    <link rel="stylesheet" href="estilos/main.css">
+    <link rel="stylesheet" href="estilos/cadastro.css">
     
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="scripts/cadastro.js" defer></script>
@@ -22,7 +22,14 @@
             
             <div class="nav-actions">
                 <a href="index.html" class="btn btn-secondary">Ver Pets Cadastrados</a>
-                <button id="btnSair" onclick="fazerLogout()" class="btn btn-secondary" style="margin-left: 10px; display: none;">Sair</button>
+                
+                <div id="areaUsuario" style="display: flex; align-items: center; gap: 0.75rem;">
+                    <span id="userEmailNav" style="font-size: 0.85rem; color: #475569; font-weight: 600;"></span>
+                    <button id="btnSair" type="button" class="btn btn-danger" style="padding: 0.4rem 0.8rem; font-size: 0.85rem;">
+                        Sair 🚪
+                    </button>
+                </div>
+
             </div>
         </div>
     </header>

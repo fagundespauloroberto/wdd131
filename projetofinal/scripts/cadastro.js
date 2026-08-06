@@ -19,15 +19,40 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     usuarioLogado = session.user;
+    const nomeDoador = usuarioLogado.user_metadata?.nome_doador || usuarioLogado.email;
 
-    // Exibe o nome ou e-mail do doador logado na tela
+// Exibir dados do usuário no menu e no formulário
+    const userEmailNav = document.getElementById('userEmailNav');
+    if (userEmailNav) userEmailNav.textContent = usuarioLogado.email;
+
     const elDoador = document.getElementById('nomeDoadorLogado');
-    if (elDoador) {
-        const nomeDoador = usuarioLogado.user_metadata?.nome_doador || usuarioLogado.email;
-        elDoador.textContent = nomeDoador;
+    if (elDoador) elDoador.textContent = nomeDoador;
+
+    // 2. Lógica do Botão Sair (Logout)
+    const btnSair = document.getElementById('btnSair');
+    if (btnSair) {
+        btnSair.addEventListener('click', async () => {
+            const confirmou = confirm('Deseja realmente encerar a sessão?');
+            if (confirmou) {
+                const { error } = await _supabase.auth.signOut();
+                if (error) {
+                    alert('Erro ao sair: ' + error.message);
+                } else {
+                    window.location.href = 'login.html';
+                }
+            }
+        });
     }
 
-    // 2. Manipular o envio do formulário
+    // 3. Garantir existência no banco (upsert na tabela profiles)
+    const whatsappDoador = usuarioLogado.user_metadata?.whatsapp || 'Não informado';
+    await _supabase.from('profiles').upsert({
+        id: usuarioLogado.id,
+        nome: nomeDoador,
+        whatsapp: whatsappDoador
+    }, { onConflict: 'id' });    
+
+    // 4. Manipular o envio do formulário
     const formAnimal = document.getElementById('formAnimal');
     if (formAnimal) {
         formAnimal.addEventListener('submit', async (e) => {
