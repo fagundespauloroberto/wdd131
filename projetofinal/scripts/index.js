@@ -1,20 +1,31 @@
-// =========================================================
-// CONFIGURAÇÃO DO CLIENTE SUPABASE
-// =========================================================
+// scripts/index.js
+
 const SUPABASE_URL = 'https://wasodctryfmajucxsqed.supabase.co';
-const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Indhc29kY3RyeWZtYWp1Y3hzcWVkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQ3MTMyOTEsImV4cCI6MjEwMDI4OTI5MX0.5hQepY49znD3ENz1eGPaFSa9n2Or0PBng5VMuvini7o';
+const SUPABASE_KEY = 'SUA_CHAVE_ANON_JWT';
 
 const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-// =========================================================
-// FUNÇÃO DE BUSCA E RENDERIZAÇÃO
-// =========================================================
+document.addEventListener('DOMContentLoaded', () => {
+    carregarAnimais();
+
+    // Evento de filtro
+    const searchForm = document.querySelector('.search-bar');
+    if (searchForm) {
+        searchForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            aplicarFiltros();
+        });
+    }
+});
+
+let listaGeralAnimais = [];
+
 async function carregarAnimais() {
     const gridAnimais = document.getElementById('gridAnimais');
     if (!gridAnimais) return;
 
     try {
-        // Consulta no Supabase trazendo os dados do animal e o objeto do doador vinculado
+        // Consulta na tabela animais trazendo as informações do perfil do doador
         const { data: animais, error } = await _supabase
             .from('animais')
             .select(`
@@ -26,75 +37,85 @@ async function carregarAnimais() {
                 descricao,
                 url_foto,
                 status,
-                doadores (
+                profiles (
                     nome,
-                    whatsapp,
-                    localizacao
+                    whatsapp
                 )
             `)
-            .eq('status', 'Disponível') // Exibe apenas os animais disponíveis
-            .order('data_cadastro', { ascending: false });
+            .eq('status', 'Disponível')
+            .order('id', { ascending: false });
 
-        if (error) {
-            throw error;
-        }
+        if (error) throw error;
 
-        if (!animais || animais.length === 0) {
-            gridAnimais.innerHTML = `
-                <div class="no-pets">
-                    <p>Nenhum animal cadastrado no momento. Seja o primeiro a cadastrar!</p>
-                </div>
-            `;
-            return;
-        }
-
-        // Limpa a mensagem de carregamento e monta a lista de cards
-        gridAnimais.innerHTML = '';
-
-        animais.forEach(pet => {
-            const doador = pet.doadores || {};
-            const whatsappMsg = encodeURIComponent(`Olá, ${doador.nome}! Vi o anúncio do(a) ${pet.nome} no Patinhas Conectadas e gostaria de saber mais sobre a adoção.`);
-            const linkWhatsapp = `https://wa.me/55${doador.whatsapp}?text=${whatsappMsg}`;
-
-            const card = document.createElement('article');
-            card.className = 'pet-card';
-
-            card.innerHTML = `
-                <div class="pet-img-wrapper">
-                    <img src="${pet.url_foto || 'https://via.placeholder.com/400x300?text=Sem+Foto'}" alt="${pet.nome}">
-                    <span class="badge badge-status">${pet.status}</span>
-                </div>
-                <div class="pet-info">
-                    <div class="pet-header">
-                        <h3>${pet.nome}</h3>
-                        <span class="badge badge-especie">${pet.especie}</span>
-                    </div>
-                    
-                    <p class="pet-meta">
-                        <strong>Porte:</strong> ${pet.porte} | <strong>Idade:</strong> ${pet.idade || 'Não informada'}
-                    </p>
-                    
-                    <p class="pet-descricao">${pet.descricao}</p>
-
-                    <div class="pet-doador-info">
-                        <small>📍 ${doador.localizacao || 'Localização não informada'}</small>
-                        <small>👤 Doador: ${doador.nome || 'Anônimo'}</small>
-                    </div>
-
-                    <a href="${linkWhatsapp}" target="_blank" rel="noopener noreferrer" class="btn btn-whatsapp">
-                        Falar com Doador no WhatsApp
-                    </a>
-                </div>
-            `;
-
-            gridAnimais.appendChild(card);
-        });
+        listaGeralAnimais = animais || [];
+        renderizarCards(listaGeralAnimais);
 
     } catch (err) {
         console.error('Erro ao carregar lista de animais:', err);
-        gridAnimais.innerHTML = '<p class="error-text">Erro ao carregar os dados dos animais. Verifique o console.</p>';
+        gridAnimais.innerHTML = '<p class="error-text">Ocorreu um erro ao carregar os pets. Tente novamente mais tarde.</p>';
     }
 }
 
-// Inicialização ao carregar a página
-document.addEventListener('DOMContentLoaded', carregarAnimais);
+function renderizarCards(animais) {
+    const gridAnimais = document.getElementById('gridAnimais');
+    gridAnimais.innerHTML = '';
+
+    if (animais.length === 0) {
+        gridAnimais.innerHTML = '<p class="no-pets">Nenhum animal encontrado com os filtros selecionados.</p>';
+        return;
+    }
+
+    const FOTO_PADRAO = 'https://images.unsplash.com/photo-1543466835-00a7907e9de1?auto=format&fit=crop&w=500&q=80';
+
+    animais.forEach(pet => {
+        const fotoUrl = (pet.url_foto && pet.url_foto.trim() !== '') ? pet.url_foto : FOTO_PADRAO;
+        
+        // Dados do doador vindos do relacionamento
+        const nomeDoador = pet.profiles?.nome || 'Doador';
+        const numWhatsapp = pet.profiles?.whatsapp ? pet.profiles.whatsapp.replace(/\D/g, '') : '';
+
+        // Formatação da mensagem para o WhatsApp
+        const mensagemWa = encodeURIComponent(`Olá ${nomeDoador}! Vi o anúncio do(a) ${pet.nome} no Patinhas Conectadas e gostaria de saber mais sobre a adoção.`);
+        const linkWa = numWhatsapp ? `https://wa.me/55${numWhatsapp}?text=${mensagemWa}` : '#';
+
+        const card = document.createElement('article');
+        card.className = 'pet-card';
+
+        card.innerHTML = `
+            <div class="pet-badge">${pet.status || 'Disponível'}</div>
+            <img src="${fotoUrl}" alt="Foto do pet ${pet.nome}" class="pet-image" onerror="this.onerror=null; this.src='${FOTO_PADRAO}';">
+            
+            <div class="pet-info">
+                <h3>${pet.nome}</h3>
+                <div class="pet-tags">
+                    <span>${pet.especie}</span> • <span>Porte ${pet.porte}</span> • <span>${pet.idade || 'Idade n/i'}</span>
+                </div>
+                <p class="pet-description">${pet.descricao}</p>
+                <p class="pet-location">📍 Responsável: <strong>${nomeDoador}</strong></p>
+                
+                ${numWhatsapp ? `
+                    <a href="${linkWa}" target="_blank" class="btn btn-whatsapp">
+                        Quero Adotar (WhatsApp)
+                    </a>
+                ` : `
+                    <button class="btn btn-secondary" disabled>Contato Indisponível</button>
+                `}
+            </div>
+        `;
+
+        gridAnimais.appendChild(card);
+    });
+}
+
+function aplicarFiltros() {
+    const especie = document.getElementById('especie').value.toLowerCase();
+    const porte = document.getElementById('porte').value.toLowerCase();
+
+    const filtrados = listaGeralAnimais.filter(pet => {
+        const bateEspecie = !especie || pet.especie.toLowerCase().includes(especie);
+        const batePorte = !porte || pet.porte.toLowerCase().includes(porte);
+        return bateEspecie && batePorte;
+    });
+
+    renderizarCards(filtrados);
+}

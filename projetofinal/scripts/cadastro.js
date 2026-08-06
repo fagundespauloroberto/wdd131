@@ -9,53 +9,57 @@ const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 let usuarioLogado = null;
 
 document.addEventListener('DOMContentLoaded', async () => {
-    // 1. Verificar se o usuário está autenticado
+    // 1. Verificar se o usuário está logado
     const { data: { session } } = await _supabase.auth.getSession();
 
     if (!session) {
-        alert('Sessão expirada ou usuário não autenticado. Faça login para continuar.');
+        alert('Você precisa estar logado para cadastrar um pet para doação.');
         window.location.href = 'login.html';
         return;
     }
 
     usuarioLogado = session.user;
 
-    const formAnimal = document.getElementById('formAnimal');
-    const fotoInput = document.getElementById('animalFoto');
+    // Exibe o nome ou e-mail do doador logado na tela
+    const elDoador = document.getElementById('nomeDoadorLogado');
+    if (elDoador) {
+        const nomeDoador = usuarioLogado.user_metadata?.nome_doador || usuarioLogado.email;
+        elDoador.textContent = nomeDoador;
+    }
 
-    // 2. Evento do Cadastro de Animal
+    // 2. Manipular o envio do formulário
+    const formAnimal = document.getElementById('formAnimal');
     if (formAnimal) {
         formAnimal.addEventListener('submit', async (e) => {
             e.preventDefault();
 
+            const fotoInput = document.getElementById('animalFoto');
             if (!fotoInput.files || fotoInput.files.length === 0) {
-                alert('Atenção: É obrigatório anexar uma foto do pet.');
+                alert('Por favor, selecione uma foto do pet.');
                 return;
             }
 
-            const file = fotoInput.files[0];
-            const fileExt = file.name.split('.').pop();
-            const fileName = `${Date.now()}-${Math.random().toString(36).substring(2, 8)}.${fileExt}`;
-            const filePath = `pets/${fileName}`;
-
             try {
-                // Upload para o Bucket
-                const { error: uploadError } = await _supabase
-                    .storage
+                // Upload da Imagem
+                const file = fotoInput.files[0];
+                const fileExt = file.name.split('.').pop();
+                const fileName = `${Date.now()}-${Math.random().toString(36).substring(2, 7)}.${fileExt}`;
+                const filePath = `pets/${fileName}`;
+
+                const { error: uploadError } = await _supabase.storage
                     .from('fotos-animais')
                     .upload(filePath, file);
 
                 if (uploadError) throw uploadError;
 
-                // Obter URL pública
-                const { data: urlData } = _supabase
-                    .storage
+                const { data: urlData } = _supabase.storage
                     .from('fotos-animais')
                     .getPublicUrl(filePath);
 
-                // Inserir registro vinculado ao ID do usuário autenticado
+                // Preparar objeto do animal
+                // O doador_id é inserido AUTOMATICAMENTE a partir do id da sessão logada!
                 const novoAnimal = {
-                    doador_id: usuarioLogado.id, // ID extraído da sessão ativa
+                    doador_id: usuarioLogado.id, 
                     nome: document.getElementById('animalNome').value.trim(),
                     especie: document.getElementById('animalEspecie').value,
                     porte: document.getElementById('animalPorte').value,
@@ -71,18 +75,13 @@ document.addEventListener('DOMContentLoaded', async () => {
 
                 if (dbError) throw dbError;
 
-                alert('Animal cadastrado com sucesso!');
+                alert('🐾 Pet cadastrado para doação com sucesso!');
                 formAnimal.reset();
 
             } catch (err) {
-                alert('Erro no cadastro: ' + err.message);
+                console.error('Erro no cadastro:', err);
+                alert('Erro ao cadastrar pet: ' + err.message);
             }
         });
     }
 });
-
-// Botão opcional de Sair (Logout)
-async function fazerLogout() {
-    await _supabase.auth.signOut();
-    window.location.href = 'login.html';
-}
