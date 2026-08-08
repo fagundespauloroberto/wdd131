@@ -8,6 +8,10 @@ const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 let listaGeralAnimais = [];
 
 document.addEventListener('DOMContentLoaded', () => {
+    // garante que carregamos os filtros salvos(localStorage)
+    carregarFiltrosSalvos();
+    
+    // em seguida carregamos os pets... 
     carregarAnimais();
 
     // Evento de submissão do formulário de busca/filtro
@@ -19,7 +23,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Escuta mudanças nos selects para aplicar o filtro em tempo real
+    // mudanças nos selects sendo aplicadas com filtro em tempo real
     const inputsFiltro = document.querySelectorAll('#especie, #porte, #localidade, #cadLocalizacao, #situacao, #filtroStatus');
     inputsFiltro.forEach(input => {
         input.addEventListener('change', aplicarFiltros);
@@ -27,9 +31,36 @@ document.addEventListener('DOMContentLoaded', () => {
             input.addEventListener('input', aplicarFiltros);
         }
     });
+
+    // configuração dos eventos para o Modal de Imagem Ampliada
+    const modal = document.getElementById('modalImagem');
+    const btnFechar = document.querySelector('.modal-fechar');
+
+    // Fechar no botão 'X'
+    if (btnFechar) {
+        btnFechar.addEventListener('click', fecharModalImagem);
+    }
+
+    // Fechar ao clicar no fundo escuro
+    if (modal) {
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                fecharModalImagem();
+            }
+        });
+    }
+
+    // Fechar ao pressionar a tecla ESC
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+            fecharModalImagem();
+        }
+    });
+    
 });
 
 // Função utilitária para remover acentos e converter para minúsculas
+// problema encontrado quando filtrado médio...
 function normalizarTexto(texto) {
     if (!texto) return '';
     return texto
@@ -116,7 +147,7 @@ function renderizarCards(animais) {
 
         card.innerHTML = `
             <div class="pet-badge ${badgeClass}">${statusTexto}</div>
-            <img src="${fotoUrl}" alt="Foto do pet ${pet.nome}" class="pet-image" onerror="this.onerror=null; this.src='${FOTO_PADRAO}';">
+                <img src="${fotoUrl}" alt="Foto do pet ${pet.nome}" class="pet-image" loading="lazy" onerror="this.onerror=null; this.src='${FOTO_PADRAO}';">
             
             <div class="pet-info">
                 <h3>${pet.nome}</h3>
@@ -139,45 +170,67 @@ function renderizarCards(animais) {
             </div>
         `;
 
+        // adicionamos o evento de click na imagem, para ampliar
+        const imgElement = card.querySelector('.pet-image');
+        if (imgElement) {
+            imgElement.addEventListener('click', () => {
+                abrirModalImagem(fotoUrl, pet.nome);
+            });
+        }        
+
         gridAnimais.appendChild(card);
     });
 }
 
 function aplicarFiltros() {
-    // Captura os elementos dos campos (se existirem no HTML)
+    // captura os elementos dos campos no DOM
     const elEspecie = document.getElementById('especie');
     const elPorte = document.getElementById('porte');
     const elLocalidade = document.getElementById('localidade') || document.getElementById('cadLocalizacao');
     const elSituacao = document.getElementById('situacao') || document.getElementById('filtroStatus');
 
-    const filtroEspecie = elEspecie ? normalizarTexto(elEspecie.value) : '';
-    const filtroPorte = elPorte ? normalizarTexto(elPorte.value) : '';
-    const filtroLocalidade = elLocalidade ? normalizarTexto(elLocalidade.value) : '';
-    
-    // Captura a opção de situação selecionada
-    const valorSituacaoRaw = elSituacao ? elSituacao.value : '';
-    const filtroSituacao = normalizarTexto(valorSituacaoRaw);
+    // extrair valores originais
+    const valEspecie = elEspecie ? elEspecie.value : '';
+    const valPorte = elPorte ? elPorte.value : '';
+    const valLocalidade = elLocalidade ? elLocalidade.value : '';
+    const valSituacao = elSituacao ? elSituacao.value : '';
 
+    // tratamento para salva os filtros no localStorage
+    localStorage.setItem('filtro_especie', valEspecie);
+    localStorage.setItem('filtro_porte', valPorte);
+    localStorage.setItem('filtro_localidade', valLocalidade);
+    localStorage.setItem('filtro_situacao', valSituacao);
+
+    // ajuste dos textos para comparação sem acento e case-insensitive
+    const filtroEspecie = normalizarTexto(valEspecie);
+    const filtroPorte = normalizarTexto(valPorte);
+    const filtroLocalidade = normalizarTexto(valLocalidade);
+    const filtroSituacao = normalizarTexto(valSituacao);
+
+    // aplica as filtragem na lista geral
     const filtrados = listaGeralAnimais.filter(pet => {
+        // Tratamento seguro para profiles (Array ou Objeto)
+        const perfil = Array.isArray(pet.profiles) ? pet.profiles[0] : pet.profiles;
+
         const especiePet = normalizarTexto(pet.especie);
         const portePet = normalizarTexto(pet.porte);
-        const localizacaoPet = normalizarTexto(pet.profiles?.localizacao);
+        const localizacaoPet = normalizarTexto(perfil?.localizacao);
         const statusPet = normalizarTexto(pet.status || 'disponivel');
 
         const bateEspecie = !filtroEspecie || especiePet.includes(filtroEspecie);
         const batePorte = !filtroPorte || portePet.includes(filtroPorte);
         const bateLocalidade = !filtroLocalidade || localizacaoPet.includes(filtroLocalidade);
 
-        // Lógica para filtrar a situação/status do pet
+        // Lógica de filtro por situação/status
         let bateSituacao = true;
 
         if (filtroSituacao && filtroSituacao !== 'todos') {
             if (filtroSituacao === 'diferente_disponivel' || filtroSituacao.includes('diferente')) {
-                // Traz apenas pets com status DIFERENTE de 'disponivel'
+                // Retorna pets onde o status NÃO é 'disponivel'
                 bateSituacao = statusPet !== 'disponivel';
             } else {
-                // Traz pela comparação exata do status selecionado (ex: 'disponivel', 'em processo', 'adotado')
-                bateSituacao = statusPet.includes(filtroSituacao);
+                // Comparação de status exata ou por inclusão
+                bateSituacao = statusPet === filtroSituacao || statusPet.includes(filtroSituacao);
             }
         }
 
@@ -185,4 +238,43 @@ function aplicarFiltros() {
     });
 
     renderizarCards(filtrados);
+}
+
+function carregarFiltrosSalvos() {
+    const elEspecie = document.getElementById('especie');
+    const elPorte = document.getElementById('porte');
+    const elLocalidade = document.getElementById('localidade') || document.getElementById('cadLocalizacao');
+    const elSituacao = document.getElementById('situacao') || document.getElementById('filtroStatus');
+
+    if (elEspecie && localStorage.getItem('filtro_especie')) {
+        elEspecie.value = localStorage.getItem('filtro_especie');
+    }
+    if (elPorte && localStorage.getItem('filtro_porte')) {
+        elPorte.value = localStorage.getItem('filtro_porte');
+    }
+    if (elLocalidade && localStorage.getItem('filtro_localidade')) {
+        elLocalidade.value = localStorage.getItem('filtro_localidade');
+    }
+    if (elSituacao && localStorage.getItem('filtro_situacao')) {
+        elSituacao.value = localStorage.getItem('filtro_situacao');
+    }
+}
+
+function abrirModalImagem(src, nomePet) {
+    const modal = document.getElementById('modalImagem');
+    const imgAmpliada = document.getElementById('imgAmpliada');
+    const legenda = document.getElementById('modalLegenda');
+
+    if (modal && imgAmpliada) {
+        imgAmpliada.src = src;
+        if (legenda) legenda.innerText = nomePet || '';
+        modal.style.display = 'flex';
+    }
+}
+
+function fecharModalImagem() {
+    const modal = document.getElementById('modalImagem');
+    if (modal) {
+        modal.style.display = 'none';
+    }
 }

@@ -11,7 +11,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const linkAlternar = document.getElementById('linkAlternar');
     const formAuth = document.getElementById('formAuth');
 
-    // Alterna entre tela de Login e tela de Cadastro
+    // altera entre tela de Login e tela de Cadastro
+    // problemas encontrados quando logava e alterava os dados da localidade
     if (linkAlternar) {
         linkAlternar.addEventListener('click', (e) => {
             e.preventDefault();
@@ -62,7 +63,7 @@ function alternarModoFormulario() {
         camposCadastro.forEach(el => el.style.display = 'none');
         document.getElementById('nomeDoador').required = false;
         document.getElementById('whatsapp').required = false;
-        //document.getElementById('localizacao').required = false;
+        document.getElementById('localizacao').required = false;
     }
 
     // Reassocia o evento de clique no link recém-recriado
@@ -73,9 +74,9 @@ function alternarModoFormulario() {
     });
 }
 
-// =========================================================
-// 1. AÇÃO DE LOGIN (NÃO ALTERA NADA NO BANCO/PROFILES)
-// =========================================================
+// ********************************************************
+// 1. Login site
+// ******************************************************
 async function realizarLogin() {
     const email = document.getElementById('email').value.trim();
     const senha = document.getElementById('senha').value;
@@ -97,9 +98,9 @@ async function realizarLogin() {
     }
 }
 
-// =========================================================
-// 2. AÇÃO DE CADASTRO (CRIA USUÁRIO AUTH E GRAVA PERFIL COMPLETO)
-// =========================================================
+// ********************************************************
+// 2. Cadastro (Cria usuário AUTH grava perfil completo)
+// ****************************************************
 async function realizarCadastro() {
     const nome = document.getElementById('nomeDoador').value.trim();
     const whatsapp = document.getElementById('whatsapp').value.trim();
@@ -121,7 +122,7 @@ async function realizarCadastro() {
             throw new Error('Não foi possível obter o ID do novo usuário.');
         }
 
-        // Step 2: Cria o registro na tabela profiles com TODOS os campos
+        // Step 2: Cria o registro na tabela profiles com *TODOS* os campos
         const { error: profileError } = await _supabase
             .from('profiles')
             .insert([

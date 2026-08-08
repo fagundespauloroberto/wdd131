@@ -15,9 +15,15 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>    
     <script src="scripts/index.js" defer></script>
 </head>
+    <!-- Modal para Ampliação da Foto do Pet -->
+    <div id="modalImagem" class="modal-imagem-overlay" style="display: none;">
+        <span class="modal-fechar">&times;</span>
+        <img class="modal-conteudo" id="imgAmpliada" alt="Foto ampliada do pet">
+        <div id="modalLegenda" class="modal-legenda"></div>
+    </div>
 <body>
 
-    <!-- CABEÇALHO E NAVEGAÇÃO -->
+    <!-- cabeçario e navegação-->
     <header class="navbar">
         <div class="container nav-container">
             <a href="#" class="logo">Patinhas Conectadas 🐾</a>
@@ -36,13 +42,13 @@
         </div>
     </header>
 
-    <!-- BANNER PRINCIPAL (HERO SECTION) -->
+    <!-- Principal (seção hero)) -->
     <section class="hero">
         <div class="container hero-content">
             <h1>Conectando patas a novos lares 🐾</h1>
             <p>Sua plataforma de adoção responsável. Encontre seu novo amigo PET, resgatados por ONGs e protetores próximos de você.</p>
             
-            <!-- BARRA DE FILTROS RÁPIDOS (Consulta Pública) -->
+            <!-- barra de filtros (Consulta Pública) -->
             <form class="search-bar">
                 <div class="form-group">
                     <label for="especie">Espécie</label>
@@ -86,7 +92,7 @@
         </div>
     </section>
 
-    <!-- LISTAGEM DE ANIMAIS (CARDS) -->
+    <!-- Lista dos Pets (CARDS) -->
     <main class="container" id="pets">
         <div class="section-title">
             <h2>Amigos esperando por um lar</h2>
@@ -100,7 +106,7 @@
         </div>
     </main>
 
-    <!-- SEÇÃO COMO FUNCIONA -->
+    <!-- Seção - Como Funciona -->
     <section class="how-it-works" id="como-funciona">
         <div class="container">
             <div class="section-title">
@@ -130,6 +136,7 @@
         </div>
     </section>
 
+    <!-- Seção - Sobre nós -->
     <section class="about-us" id="sobre-nos">
         <div class="container">
             <div class="section-title">
@@ -150,7 +157,7 @@
         </div>
     </section>
 
-    <!-- RODAPÉ -->
+    <!-- Rodapé -->
     <footer>
         <div class="container footer-content">
             <p>&copy; 2026 Patinhas Conectadas 🐾 — Todos os direitos reservados.</p>

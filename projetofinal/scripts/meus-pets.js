@@ -44,7 +44,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 });
 
 // =========================================================
-// CARREGAR APENAS OS PETS DO DOADOR LOGADO
+// Filtro de Pets por Doador
 // =========================================================
 async function carregarMeusPets() {
     const gridContainer = document.getElementById('gridMeusPets');
@@ -113,7 +113,7 @@ function renderizarGridPets(pets) {
 }
 
 // =========================================================
-// DELEGAÇÃO DE EVENTOS DA GRID (EDITAR / EXCLUIR)
+// Eventos do Grid (editar / excluir)
 // =========================================================
 function configurarEventosGrid() {
     const gridContainer = document.getElementById('gridMeusPets');
@@ -137,7 +137,7 @@ function configurarEventosGrid() {
 }
 
 // =========================================================
-// MODAL DE EDIÇÃO
+// Edição PEts
 // =========================================================
 const modalEdicao = document.getElementById('modalEdicao');
 
@@ -256,7 +256,7 @@ function configurarEventosModal() {
 }
 
 // =========================================================
-// EXCLUIR PET
+// Excluir PEt
 // =========================================================
 async function excluirPet(idPet, nomePet) {
     const confirmou = confirm(`Tem certeza que deseja excluir o anúncio de "${nomePet}"? Esta ação não poderá ser desfeita.`);

@@ -1,6 +1,6 @@
-/* =========================================================
+/* ***************************************************
    ESTILOS GERAIS & VARIÁVEIS (Conforme Planejamento S05)
-   ========================================================= */
+ ************************************************** */
 :root {
     --primary-color: #1E3A8A;
     --accent-color: #3B82F6;
@@ -86,6 +86,65 @@ a {
 
 .btn-whatsapp:hover {
     background-color: var(--whatsapp-hover);
+}
+
+/* MODAL DE AMPLIÇÂO DA IMAGEM */
+.modal-imagem-overlay {
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.85);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    backdrop-filter: blur(4px);
+}
+
+.modal-conteudo {
+    max-width: 90%;
+    max-height: 80vh;
+    border-radius: 8px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+    object-fit: contain;
+    transition: transform 0.2s ease;
+}
+
+.modal-legenda {
+    margin-top: 15px;
+    color: #ffffff;
+    font-size: 1.1rem;
+    font-weight: 600;
+    text-align: center;
+}
+
+.modal-fechar {
+    position: absolute;
+    top: 20px;
+    right: 30px;
+    color: #ffffff;
+    font-size: 40px;
+    font-weight: bold;
+    cursor: pointer;
+    user-select: none;
+    transition: color 0.2s;
+}
+
+.modal-fechar:hover {
+    color: #f87171;
+}
+
+/* Indicador visual de que a imagem é clicável */
+.pet-image {
+    cursor: pointer;
+    transition: opacity 0.2s ease;
+}
+
+.pet-image:hover {
+    opacity: 0.9;
 }
 
 /* NAVBAR */
@@ -400,65 +459,4 @@ footer {
     .form-group, .search-bar .btn {
         width: 100%;
     }
-}
-
-/* =========================================================
-   ESTILOS DOS FORMULÁRIOS DE CADASTRO (CADASTRO.HTML)
-   ========================================================= */
-.form-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-    gap: 2rem;
-}
-
-.card-form {
-    background-color: var(--card-bg);
-    border: 1px solid var(--border-color);
-    border-radius: 10px;
-    padding: 1.8rem;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-}
-
-.card-form h3 {
-    color: var(--primary-color);
-    font-size: 1.3rem;
-    margin-bottom: 0.2rem;
-}
-
-.form-subtitle {
-    font-size: 0.85rem;
-    color: var(--text-muted);
-    margin-bottom: 1.5rem;
-}
-
-.form-group-full {
-    display: flex;
-    flex-direction: column;
-    margin-bottom: 1rem;
-}
-
-.form-group-full label {
-    font-size: 0.85rem;
-    font-weight: 600;
-    margin-bottom: 0.3rem;
-    color: var(--text-color);
-}
-
-.form-group-full input,
-.form-group-full select,
-.form-group-full textarea {
-    padding: 0.65rem;
-    border: 1px solid var(--border-color);
-    border-radius: 6px;
-    font-family: var(--font-body);
-    font-size: 0.95rem;
-}
-
-.form-row {
-    display: flex;
-    gap: 1rem;
-}
-
-.form-row .form-group-full {
-    flex: 1;
 }
