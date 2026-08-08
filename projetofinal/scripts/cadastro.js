@@ -19,11 +19,17 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     usuarioLogado = session.user;
-    const nomeDoador = usuarioLogado.user_metadata?.nome_doador || usuarioLogado.email;
+    const metadata = usuarioLogado.user_metadata || {};
 
-// Exibir dados do usuário no menu e no formulário
+    const nomeDoador = metadata.nome_doador || usuarioLogado.email;
+    const whatsappDoador = metadata.whatsapp || 'Não informado';
+    const localizacaoDoador = metadata.localizacao || 'Não informada';
+    const tipoDoador = metadata.tipo || 'Doador Particular';
+    const emailDoador = usuarioLogado.email;
+
+    // Exibir dados do usuário no menu e na interface
     const userEmailNav = document.getElementById('userEmailNav');
-    if (userEmailNav) userEmailNav.textContent = usuarioLogado.email;
+    if (userEmailNav) userEmailNav.textContent = emailDoador;
 
     const elDoador = document.getElementById('nomeDoadorLogado');
     if (elDoador) elDoador.textContent = nomeDoador;
@@ -32,7 +38,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const btnSair = document.getElementById('btnSair');
     if (btnSair) {
         btnSair.addEventListener('click', async () => {
-            const confirmou = confirm('Deseja realmente encerar a sessão?');
+            const confirmou = confirm('Deseja realmente encerrar a sessão?');
             if (confirmou) {
                 const { error } = await _supabase.auth.signOut();
                 if (error) {
@@ -44,36 +50,58 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
     }
 
-    // 3. Garantir existência no banco (upsert na tabela profiles)
-    const whatsappDoador = usuarioLogado.user_metadata?.whatsapp || 'Não informado';
-    await _supabase.from('profiles').upsert({
-        id: usuarioLogado.id,
-        nome: nomeDoador,
-        whatsapp: whatsappDoador
-    }, { onConflict: 'id' });    
+    // 3. Garantir/Sincronizar perfil completo na tabela 'profiles'
+    try {
+        const { error: profileError } = await _supabase.from('profiles').upsert({
+            id: usuarioLogado.id,
+            nome: nomeDoador,
+            email: emailDoador,
+            whatsapp: whatsappDoador,
+            localizacao: localizacaoDoador,
+            tipo: tipoDoador
+        }, { onConflict: 'id' });
 
-    // 4. Manipular o envio do formulário
+        if (profileError) {
+            console.warn('Aviso ao sincronizar perfil:', profileError.message);
+        }
+    } catch (errPerfil) {
+        console.error('Erro ao salvar dados em profiles:', errPerfil);
+    }
+
+    // 4. Manipular o envio do formulário de cadastro do pet
     const formAnimal = document.getElementById('formAnimal');
     if (formAnimal) {
         formAnimal.addEventListener('submit', async (e) => {
             e.preventDefault();
 
+            const submitBtn = formAnimal.querySelector('button[type="submit"]');
             const fotoInput = document.getElementById('animalFoto');
+
             if (!fotoInput.files || fotoInput.files.length === 0) {
                 alert('Por favor, selecione uma foto do pet.');
                 return;
             }
 
             try {
+                // Bloqueia o botão para evitar envio duplo
+                if (submitBtn) {
+                    submitBtn.disabled = true;
+                    submitBtn.textContent = 'Cadastrando...';
+                }
+
                 // Upload da Imagem
                 const file = fotoInput.files[0];
-                const fileExt = file.name.split('.').pop();
-                const fileName = `${Date.now()}-${Math.random().toString(36).substring(2, 7)}.${fileExt}`;
+                const fileExt = file.name.split('.').pop().toLowerCase();
+                const cleanName = file.name.replace(/[^a-zA-Z0-9]/g, '_');
+                const fileName = `${Date.now()}_${Math.random().toString(36).substring(2, 7)}.${fileExt}`;
                 const filePath = `pets/${fileName}`;
 
                 const { error: uploadError } = await _supabase.storage
                     .from('fotos-animais')
-                    .upload(filePath, file);
+                    .upload(filePath, file, {
+                        cacheControl: '3600',
+                        upsert: false
+                    });
 
                 if (uploadError) throw uploadError;
 
@@ -82,7 +110,6 @@ document.addEventListener('DOMContentLoaded', async () => {
                     .getPublicUrl(filePath);
 
                 // Preparar objeto do animal
-                // O doador_id é inserido AUTOMATICAMENTE a partir do id da sessão logada!
                 const novoAnimal = {
                     doador_id: usuarioLogado.id, 
                     nome: document.getElementById('animalNome').value.trim(),
@@ -106,6 +133,12 @@ document.addEventListener('DOMContentLoaded', async () => {
             } catch (err) {
                 console.error('Erro no cadastro:', err);
                 alert('Erro ao cadastrar pet: ' + err.message);
+            } finally {
+                // Reabilita o botão
+                if (submitBtn) {
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = 'Cadastrar Pet para Doação';
+                }
             }
         });
     }

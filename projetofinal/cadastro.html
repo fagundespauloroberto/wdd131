@@ -16,21 +16,17 @@
 </head>
 <body>
 
+    <!-- NAVBAR COM O NOVO BOTÃO 'MEUS PETS' -->
     <header class="navbar">
         <div class="container nav-container">
             <a href="index.html" class="logo">Patinhas Conectadas 🐾</a>
-            
-            <div class="nav-actions">
-                <a href="index.html" class="btn btn-secondary">Ver Pets Cadastrados</a>
-                
-                <div id="areaUsuario" style="display: flex; align-items: center; gap: 0.75rem;">
-                    <span id="userEmailNav" style="font-size: 0.85rem; color: #475569; font-weight: 600;"></span>
-                    <button id="btnSair" type="button" class="btn btn-danger" style="padding: 0.4rem 0.8rem; font-size: 0.85rem;">
-                        Sair 🚪
-                    </button>
-                </div>
-
-            </div>
+            <nav class="nav-links">
+                <a href="index.html">Início</a>
+                <a href="cadastro.html" class="active">Cadastrar Pet</a>
+                <a href="meus-pets.html">Meus Pets 🐾</a>
+                <span id="userEmailNav" style="font-size: 0.85rem; color: #19a748; font-weight: 600;"></span>
+                <button id="btnSair" class="btn btn-secondary" style="margin-left: 0.5rem; padding: 0.4rem 0.8rem;">Sair</button>
+            </nav>
         </div>
     </header>
 

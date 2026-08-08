@@ -5,10 +5,12 @@ const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZ
 
 const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
+let listaGeralAnimais = [];
+
 document.addEventListener('DOMContentLoaded', () => {
     carregarAnimais();
 
-    // Evento de filtro
+    // Evento do formulário de busca/filtro
     const searchForm = document.querySelector('.search-bar');
     if (searchForm) {
         searchForm.addEventListener('submit', (e) => {
@@ -18,14 +20,21 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
-let listaGeralAnimais = [];
+// Função utilitária para remover acentos e converter para minúsculas
+function normalizarTexto(texto) {
+    if (!texto) return '';
+    return texto
+        .toLowerCase()
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '');
+}
 
 async function carregarAnimais() {
     const gridAnimais = document.getElementById('gridAnimais');
     if (!gridAnimais) return;
 
     try {
-        // Especifica explicitamente a FK (profiles!doador_id) no select
+        // Adicionado 'localizacao' no select do relacionamento com profiles
         const { data: animais, error } = await _supabase
             .from('animais')
             .select(`
@@ -40,7 +49,8 @@ async function carregarAnimais() {
                 doador_id,
                 profiles!fk_animais_profiles (
                     nome,
-                    whatsapp
+                    whatsapp,
+                    localizacao
                 )
             `)
             .eq('status', 'Disponível')
@@ -62,7 +72,7 @@ function renderizarCards(animais) {
     gridAnimais.innerHTML = '';
 
     if (!animais || animais.length === 0) {
-        gridAnimais.innerHTML = '<p class="no-pets">Nenhum animal encontrado no momento.</p>';
+        gridAnimais.innerHTML = '<p class="no-pets">Nenhum animal encontrado com os filtros selecionados.</p>';
         return;
     }
 
@@ -71,9 +81,10 @@ function renderizarCards(animais) {
     animais.forEach(pet => {
         const fotoUrl = (pet.url_foto && pet.url_foto.trim() !== '') ? pet.url_foto : FOTO_PADRAO;
         
-        // Trata os dados do perfil obtidos pelo relacionamento
+        // Trata os dados do perfil do doador
         const perfil = pet.profiles;
         const nomeDoador = perfil?.nome || 'Doador Responsável';
+        const localizacaoDoador = perfil?.localizacao || 'Localidade não informada';
         const numWhatsapp = perfil?.whatsapp ? perfil.whatsapp.replace(/\D/g, '') : '';
 
         // Monta o link do WhatsApp
@@ -93,7 +104,8 @@ function renderizarCards(animais) {
                     <span>${pet.especie}</span> • <span>Porte ${pet.porte}</span> • <span>${pet.idade || 'Idade n/i'}</span>
                 </div>
                 <p class="pet-description">${pet.descricao}</p>
-                <p class="pet-location">📍 Responsável: <strong>${nomeDoador}</strong></p>
+                <p class="pet-location">📍 <strong>${localizacaoDoador}</strong></p>
+                <p class="pet-doador" style="font-size: 0.85rem; color: #64748b; margin-bottom: 1rem;">Responsável: ${nomeDoador}</p>
                 
                 ${numWhatsapp ? `
                     <a href="${linkWa}" target="_blank" class="btn btn-whatsapp">
@@ -110,13 +122,25 @@ function renderizarCards(animais) {
 }
 
 function aplicarFiltros() {
-    const especie = document.getElementById('especie').value.toLowerCase();
-    const porte = document.getElementById('porte').value.toLowerCase();
+    // Captura os elementos dos campos (se existirem no HTML)
+    const elEspecie = document.getElementById('especie');
+    const elPorte = document.getElementById('porte');
+    const elLocalidade = document.getElementById('localidade') || document.getElementById('cadLocalizacao');
+
+    const filtroEspecie = elEspecie ? normalizarTexto(elEspecie.value) : '';
+    const filtroPorte = elPorte ? normalizarTexto(elPorte.value) : '';
+    const filtroLocalidade = elLocalidade ? normalizarTexto(elLocalidade.value) : '';
 
     const filtrados = listaGeralAnimais.filter(pet => {
-        const bateEspecie = !especie || pet.especie.toLowerCase().includes(especie);
-        const batePorte = !porte || pet.porte.toLowerCase().includes(porte);
-        return bateEspecie && batePorte;
+        const especiePet = normalizarTexto(pet.especie);
+        const portePet = normalizarTexto(pet.porte);
+        const localizacaoPet = normalizarTexto(pet.profiles?.localizacao);
+
+        const bateEspecie = !filtroEspecie || especiePet.includes(filtroEspecie);
+        const batePorte = !filtroPorte || portePet.includes(filtroPorte);
+        const bateLocalidade = !filtroLocalidade || localizacaoPet.includes(filtroLocalidade);
+
+        return bateEspecie && batePorte && bateLocalidade;
     });
 
     renderizarCards(filtrados);

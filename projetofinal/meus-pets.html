@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patinhas Conectadas 🐾 — Meus Pets Cadastrados</title>
+    
+    <link rel="stylesheet" href="estilos/cadastro.css">
+    <link rel="stylesheet" href="estilos/meus-pets.css">
+    
+    <!-- Supabase SDK -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="scripts/meus-pets.js" defer></script>
+</head>
+<body>
+
+    <header class="navbar">
+        <div class="container nav-container">
+            <a href="index.html" class="logo">Patinhas Conectadas 🐾</a>
+            <nav class="nav-links">
+                <a href="index.html">Início</a>
+                <a href="cadastro.html">Cadastrar Pet</a>
+                <a href="meus-pets.html" class="active">Meus Pets</a>
+                <span id="userEmailNav" style="font-weight: 600; color: #0284c7; margin-left: 1rem;"></span>
+                <button id="btnSair" class="btn btn-secondary" style="margin-left: 0.5rem; padding: 0.4rem 0.8rem;">Sair</button>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container" style="margin-top: 2rem; margin-bottom: 4rem;">
+        <div class="header-secao" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; flex-wrap: wrap; gap: 1rem;">
+            <div>
+                <h2>Meus Pets Cadastrados 🐾</h2>
+                <p style="color: #64748b;">Gerencie seus anúncios, atualize informações ou marque quando um pet for adotado.</p>
+            </div>
+            <a href="cadastro.html" class="btn btn-primary">+ Cadastrar Novo Pet</a>
+        </div>
+
+        <!-- Onde os cards dos pets do doador serão renderizados -->
+        <div id="gridMeusPets" class="grid-pets">
+            <p id="mensagemCarregando" style="grid-column: 1 / -1; text-align: center; color: #64748b; padding: 2rem;">
+                Carregando seus pets...
+            </p>
+        </div>
+    </main>
+
+    <!-- ========================================================= -->
+    <!-- MODAL DE EDIÇÃO DE PET -->
+    <!-- ========================================================= -->
+    <div id="modalEdicao" class="modal-backdrop" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Editar Dados do Pet 🐾</h3>
+                <button type="button" id="btnFecharModal" class="btn-fechar">&times;</button>
+            </div>
+
+            <form id="formEdicaoPet">
+                <input type="hidden" id="editPetId">
+
+                <!-- Pré-visualização da Foto Atual e opção de Troca -->
+                <div class="form-group" style="text-align: center;">
+                    <img id="editFotoPreview" src="" alt="Foto atual do pet" class="img-preview-modal">
+                    <br>
+                    <label for="editAnimalFoto" style="cursor: pointer; color: #0284c7; font-weight: 600; margin-top: 0.5rem; display: inline-block;">
+                        📷 Alterar Foto do Pet (Opcional)
+                    </label>
+                    <input type="file" id="editAnimalFoto" accept="image/*" style="display: none;">
+                </div>
+
+                <div class="form-group">
+                    <label for="editAnimalStatus">Status do Anúncio *</label>
+                    <select id="editAnimalStatus" required>
+                        <option value="Disponível">🟢 Disponível</option>
+                        <option value="Em Processo">🟡 Em Processo de Adoção</option>
+                        <option value="Adotado">🔴 Adotado (Sai da vitrine pública)</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="editAnimalNome">Nome do Pet *</label>
+                    <input type="text" id="editAnimalNome" required>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="editAnimalEspecie">Espécie *</label>
+                        <select id="editAnimalEspecie" required>
+                            <option value="Cão">Cão</option>
+                            <option value="Gato">Gato</option>
+                            <option value="Outro">Outro</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="editAnimalPorte">Porte *</label>
+                        <select id="editAnimalPorte" required>
+                            <option value="Pequeno">Pequeno</option>
+                            <option value="Médio">Médio</option>
+                            <option value="Grande">Grande</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="editAnimalIdade">Idade Aprox. *</label>
+                    <input type="text" id="editAnimalIdade" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="editAnimalDescricao">Descrição / História *</label>
+                    <textarea id="editAnimalDescricao" rows="4" required></textarea>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" id="btnCancelarEdicao" class="btn btn-secondary">Cancelar</button>
+                    <button type="submit" id="btnSalvarEdicao" class="btn btn-primary">Salvar Alterações</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</body>
+</html>
