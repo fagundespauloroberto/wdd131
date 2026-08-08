@@ -1,12 +1,10 @@
-/* =========================================================
-   ESTILOS GERAIS & VARIÁVEIS (Conforme Planejamento S05)
-   ========================================================= */
+/**************************************************
+   ESTILOS GERAIS & VARIÁVEIS
+  ********************************************** */
 :root {
     --primary-color: #1E3A8A;
     --accent-color: #3B82F6;
     --accent-hover: #ea580c;
-    --whatsapp-color: #25d366;
-    --whatsapp-hover: #1da851;
     --bg-color: #f8fafc;
     --card-bg: #ffffff;
     --text-color: #1e293b;
@@ -36,7 +34,7 @@ body {
     padding: 0 1.5rem;
 }
 
-/* TIPOGRAFIA & BOTÕES GERAIS */
+/* TIPOGRAFIA & BOTÕES */
 h1, h2, h3 {
     font-family: var(--font-heading);
 }
@@ -78,16 +76,6 @@ a {
     background-color: rgba(255, 255, 255, 0.15);
 }
 
-.btn-whatsapp {
-    background-color: var(--whatsapp-color);
-    color: #ffffff;
-    width: 100%;
-}
-
-.btn-whatsapp:hover {
-    background-color: var(--whatsapp-hover);
-}
-
 /* NAVBAR */
 .navbar {
     background-color: var(--primary-color);
@@ -114,6 +102,7 @@ a {
 .nav-links {
     display: flex;
     list-style: none;
+    align-items: center;
     gap: 1.5rem;
 }
 
@@ -121,45 +110,43 @@ a {
     color: var(--accent-color);
 }
 
-/* HERO SECTION */
-.hero {
-    background: linear-gradient(135deg, var(--primary-color) 0%, #0f766e 100%);
-    color: #ffffff;
-    padding: 4rem 0 5rem 0;
-    text-align: center;
+.nav-links a.active {
+    font-weight: 700;
+    border-bottom: 2px solid var(--accent-color);
 }
 
-.hero h1 {
-    font-size: 2.5rem;
-    margin-bottom: 1rem;
-}
-
-.hero p {
-    font-size: 1.15rem;
-    max-width: 650px;
-    margin: 0 auto 2.5rem auto;
-    opacity: 0.95;
-}
-
-/* BARRA DE FILTROS */
-.search-bar {
+/* ESTRUTURA DO FORMULÁRIO DE CADASTRO DE PET */
+.card-form {
     background-color: var(--card-bg);
-    padding: 1.25rem;
+    border: 1px solid var(--border-color);
     border-radius: 10px;
-    display: flex;
-    gap: 1rem;
-    flex-wrap: wrap;
-    align-items: flex-end;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
-    max-width: 900px;
-    margin: 0 auto;
+    padding: 1.8rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.card-form h2 {
+    color: var(--primary-color);
+    font-size: 1.6rem;
+    margin-bottom: 1.2rem;
+}
+
+.info-doador-logado {
+    background-color: var(--border-color);
+    padding: 0.75rem 1rem;
+    border-radius: 8px;
+    margin-bottom: 1.5rem;
+}
+
+.info-doador-logado p {
+    margin: 0;
+    font-size: 0.9rem;
+    color: #334155;
 }
 
 .form-group {
-    flex: 1;
-    min-width: 180px;
     display: flex;
     flex-direction: column;
+    margin-bottom: 1.2rem;
     text-align: left;
 }
 
@@ -171,157 +158,22 @@ a {
 }
 
 .form-group select,
-.form-group input {
+.form-group input,
+.form-group textarea {
     padding: 0.65rem;
     border: 1px solid var(--border-color);
     border-radius: 6px;
     font-family: var(--font-body);
     font-size: 0.95rem;
-}
-
-/* TÍTULOS DE SEÇÃO */
-.section-title {
-    text-align: center;
-    margin: 3.5rem 0 2rem 0;
-}
-
-.section-title h2 {
-    color: var(--primary-color);
-    font-size: 1.8rem;
-    margin-bottom: 0.3rem;
-}
-
-.section-title p {
-    color: var(--text-muted);
-}
-
-/* CARDS DOS PETS */
-.pet-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 2rem;
-    margin-bottom: 4rem;
-}
-
-.pet-card {
-    background-color: var(--card-bg);
-    border-radius: 10px;
-    overflow: hidden;
-    border: 1px solid var(--border-color);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-    position: relative;
-    display: flex;
-    flex-direction: column;
-}
-
-.pet-badge {
-    position: absolute;
-    top: 12px;
-    right: 12px;
-    background-color: var(--primary-color);
-    color: #ffffff;
-    font-size: 0.75rem;
-    font-weight: 700;
-    padding: 0.25rem 0.6rem;
-    border-radius: 4px;
-    text-transform: uppercase;
-}
-
-.pet-image {
     width: 100%;
-    height: 220px;
-    object-fit: cover;
 }
 
-.pet-info {
-    padding: 1.25rem;
-    display: flex;
-    flex-direction: column;
-    flex-grow: 1;
-}
-
-.pet-info h3 {
-    font-size: 1.3rem;
-    color: var(--primary-color);
-    margin-bottom: 0.3rem;
-}
-
-.pet-tags {
-    font-size: 0.85rem;
-    color: var(--text-muted);
-    font-weight: 600;
-    margin-bottom: 0.8rem;
-}
-
-.pet-description {
-    font-size: 0.92rem;
-    color: var(--text-color);
-    margin-bottom: 1rem;
-    flex-grow: 1;
-}
-
-.pet-location {
-    font-size: 0.85rem;
-    font-weight: 600;
-    color: var(--text-muted);
-    margin-bottom: 1rem;
-}
-
-/* COMO FUNCIONA */
-.how-it-works {
-    background-color: #ffffff;
-    padding: 1rem 0 4rem 0;
-    border-top: 1px solid var(--border-color);
-}
-
-.steps-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 2rem;
-}
-
-.step-card {
-    text-align: center;
-    padding: 1.5rem;
-}
-
-.step-number {
-    width: 50px;
-    height: 50px;
-    background-color: var(--accent-color);
-    color: #ffffff;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-family: var(--font-heading);
-    font-weight: 700;
-    font-size: 1.3rem;
-    margin: 0 auto 1rem auto;
-}
-
-.step-card h3 {
-    color: var(--primary-color);
-    margin-bottom: 0.5rem;
-}
-
-.step-card p {
-    font-size: 0.9rem;
-    color: var(--text-muted);
-}
-
-/* RODAPÉ */
-footer {
-    background-color: var(--primary-color);
-    color: #ffffff;
-    padding: 2rem 0;
-    text-align: center;
-    font-size: 0.85rem;
-}
-
-.footer-content p {
-    opacity: 0.9;
-    margin-bottom: 0.4rem;
+.form-group select:focus,
+.form-group input:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
 }
 
 /* RESPONSIVIDADE (MOBILE) */
@@ -331,87 +183,9 @@ footer {
         gap: 1rem;
     }
 
-    .hero h1 {
-        font-size: 1.8rem;
+    .nav-links {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 0.8rem;
     }
-
-    .search-bar {
-        flex-direction: column;
-    }
-
-    .form-group, .search-bar .btn {
-        width: 100%;
-    }
-}
-
-/* =========================================================
-   ESTILOS DOS FORMULÁRIOS DE CADASTRO (CADASTRO.HTML)
-   ========================================================= */
-.form-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-    gap: 2rem;
-}
-
-.card-form {
-    background-color: var(--card-bg);
-    border: 1px solid var(--border-color);
-    border-radius: 10px;
-    padding: 1.8rem;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-}
-
-.card-form h3 {
-    color: var(--primary-color);
-    font-size: 1.3rem;
-    margin-bottom: 0.2rem;
-}
-
-.form-subtitle {
-    font-size: 0.85rem;
-    color: var(--text-muted);
-    margin-bottom: 1.5rem;
-}
-
-.form-group-full {
-    display: flex;
-    flex-direction: column;
-    margin-bottom: 1rem;
-}
-
-.form-group-full label {
-    font-size: 0.85rem;
-    font-weight: 600;
-    margin-bottom: 0.3rem;
-    color: var(--text-color);
-}
-
-.form-group-full input,
-.form-group-full select,
-.form-group-full textarea {
-    padding: 0.65rem;
-    border: 1px solid var(--border-color);
-    border-radius: 6px;
-    font-family: var(--font-body);
-    font-size: 0.95rem;
-}
-
-.form-row {
-    display: flex;
-    gap: 1rem;
-}
-
-.form-row .form-group-full {
-    flex: 1;
-}
-
-.btn-danger {
-    background-color: #ef4444;
-    color: #ffffff;
-    border: none;
-    transition: background-color 0.2s;
-}
-
-.btn-danger:hover {
-    background-color: #dc2626;
 }

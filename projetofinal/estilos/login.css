@@ -1,14 +1,18 @@
-/* estilos/main.css */
+/* *******************************************************
+   ESTILOS DA TELA DE LOGIN 
+   **************************************************** */
 :root {
-    --primary-color: #0284c7;
-    --primary-hover: #0369a1;
-    --secondary-color: #64748b;
-    --whatsapp-color: #25d366;
-    --whatsapp-hover: #1da851;
+    --primary-color: #1E3A8A;
+    --accent-color: #3B82F6;
+    --accent-hover: #ea580c;
     --bg-color: #f8fafc;
     --card-bg: #ffffff;
     --text-color: #1e293b;
-    --border-radius: 12px;
+    --text-muted: #64748b;
+    --border-color: #e2e8f0;
+    
+    --font-heading: 'Montserrat', sans-serif;
+    --font-body: 'Open Sans', sans-serif;
 }
 
 * {
@@ -18,30 +22,37 @@
 }
 
 body {
-    font-family: 'Open Sans', sans-serif;
+    font-family: var(--font-body);
     background-color: var(--bg-color);
     color: var(--text-color);
     line-height: 1.6;
 }
 
+/* TIPOGRAFIA & BOTÕES */
 h1, h2, h3, h4, .logo {
-    font-family: 'Montserrat', sans-serif;
+    font-family: var(--font-heading);
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
 }
 
 .container {
-    max-width: 1200px;
+    max-width: 1140px;
     margin: 0 auto;
     padding: 0 1.5rem;
 }
 
 /* NAVBAR */
 .navbar {
-    background-color: #ffffff;
-    border-bottom: 1px solid #e2e8f0;
+    background-color: var(--primary-color);
+    color: #ffffff;
     padding: 1rem 0;
     position: sticky;
     top: 0;
     z-index: 100;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
 .nav-container {
@@ -52,245 +63,148 @@ h1, h2, h3, h4, .logo {
 
 .logo {
     font-size: 1.4rem;
-    font-weight: 800;
-    color: var(--primary-color);
-    text-decoration: none;
-}
-
-.nav-links {
-    display: flex;
-    list-style: none;
-    gap: 1.5rem;
-}
-
-.nav-links a {
-    text-decoration: none;
-    color: var(--text-color);
-    font-weight: 600;
-    transition: color 0.2s;
-}
-
-.nav-links a:hover {
-    color: var(--primary-color);
-}
-
-/* HERO SECTION */
-.hero {
-    background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
+    font-weight: 700;
     color: #ffffff;
-    padding: 4rem 0 3rem;
-    text-align: center;
 }
 
-.hero h1 {
-    font-size: 2.5rem;
-    margin-bottom: 1rem;
+/* CONTAINER E CARD DE AUTENTICAÇÃO */
+.auth-container {
+    max-width: 480px;
+    margin-top: 3rem;
+    margin-bottom: 3rem;
 }
 
-.search-bar {
-    background-color: #ffffff;
-    padding: 1.5rem;
-    border-radius: var(--border-radius);
+.card-form {
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    padding: 1.8rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.card-form h2 {
+    color: var(--primary-color);
+    font-size: 1.6rem;
+    margin-bottom: 0.5rem;
+}
+
+.auth-subtitle {
+    color: var(--text-muted);
+    margin-bottom: 1.5rem;
+    font-size: 0.95rem;
+}
+
+/* FORMULÁRIO E CAMPOS */
+.form-group {
     display: flex;
-    gap: 1rem;
-    flex-wrap: wrap;
-    margin-top: 2rem;
-    box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
-}
-
-.search-bar .form-group {
-    flex: 1;
-    min-width: 180px;
+    flex-direction: column;
+    margin-bottom: 1.2rem;
     text-align: left;
 }
 
-.search-bar label {
-    display: block;
+.form-group label {
     font-size: 0.85rem;
-    color: #64748b;
     font-weight: 600;
-    margin-bottom: 0.25rem;
+    color: var(--text-color);
+    margin-bottom: 0.3rem;
 }
 
-.search-bar select, .search-bar input {
+.form-group input,
+.form-group select,
+.form-group textarea {
     width: 100%;
-    padding: 0.6rem;
-    border: 1px solid #cbd5e1;
+    padding: 0.65rem;
+    border: 1px solid var(--border-color);
     border-radius: 6px;
+    font-family: var(--font-body);
+    font-size: 0.95rem;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+    outline: none;
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
 }
 
 /* BOTÕES */
 .btn {
     display: inline-block;
-    padding: 0.65rem 1.25rem;
-    border-radius: 8px;
+    padding: 0.75rem 1.25rem;
+    border-radius: 6px;
+    font-family: var(--font-heading);
     font-weight: 600;
-    text-decoration: none;
-    border: none;
+    font-size: 0.95rem;
     cursor: pointer;
+    border: none;
+    transition: background-color 0.2s ease, transform 0.1s ease;
     text-align: center;
-    transition: background-color 0.2s;
 }
 
 .btn-primary {
-    background-color: var(--primary-color);
+    background-color: var(--accent-color);
     color: #ffffff;
 }
 
 .btn-primary:hover {
-    background-color: var(--primary-hover);
+    background-color: var(--accent-hover);
 }
 
-.btn-secondary {
-    background-color: #e2e8f0;
-    color: #334155;
-}
-
-.btn-whatsapp {
-    background-color: var(--whatsapp-color);
-    color: #ffffff;
+.btn-full {
     width: 100%;
     margin-top: 1rem;
 }
 
-.btn-whatsapp:hover {
-    background-color: var(--whatsapp-hover);
-}
-
-/* GRID DE PETS */
-.section-title {
+/* ÁREA DE ALTERNÂNCIA (LOGIN) */
+.auth-toggle {
+    margin-top: 1.5rem;
     text-align: center;
-    margin: 3rem 0 2rem;
+    font-size: 0.95rem;
 }
 
-.pet-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 2rem;
-    margin-bottom: 4rem;
-}
-
-.pet-card {
-    background-color: var(--card-bg);
-    border-radius: var(--border-radius);
-    overflow: hidden;
-    box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
-    position: relative;
-    display: flex;
-    flex-direction: column;
-}
-
-.pet-image {
-    width: 100%;
-    height: 220px;
-    object-fit: cover;
-}
-
-.pet-badge {
-    position: absolute;
-    top: 12px;
-    right: 12px;
-    background-color: #22c55e;
-    color: #ffffff;
-    padding: 0.25rem 0.75rem;
-    border-radius: 20px;
-    font-size: 0.75rem;
-    font-weight: 700;
-}
-
-.pet-info {
-    padding: 1.25rem;
-    display: flex;
-    flex-direction: column;
-    flex-grow: 1;
-}
-
-.pet-info h3 {
-    font-size: 1.25rem;
-    margin-bottom: 0.25rem;
-}
-
-.pet-tags {
-    font-size: 0.85rem;
-    color: #64748b;
-    margin-bottom: 0.75rem;
-}
-
-.pet-description {
-    font-size: 0.9rem;
-    margin-bottom: 1rem;
-    flex-grow: 1;
-}
-
-.pet-location {
-    font-size: 0.85rem;
-    color: #475569;
-}
-
-/* CARDS DE FORMULÁRIOS (LOGIN E CADASTRO) */
-.card-form {
-    background-color: #ffffff;
-    padding: 2rem;
-    border-radius: var(--border-radius);
-    box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
-}
-
-.form-group {
-    margin-bottom: 1.25rem;
-}
-
-.form-group label {
-    display: block;
+.auth-toggle a {
+    color: var(--accent-color);
     font-weight: 600;
-    margin-bottom: 0.35rem;
-    font-size: 0.9rem;
+    text-decoration: none;
 }
 
-.form-group input, .form-group select, .form-group textarea {
-    width: 100%;
-    padding: 0.65rem;
-    border: 1px solid #cbd5e1;
-    border-radius: 6px;
-    font-family: inherit;
+.auth-toggle a:hover {
+    color: var(--accent-hover);
+    text-decoration: underline;
 }
 
-/* SEÇÃO COMO FUNCIONA */
-.how-it-works {
-    background-color: #ffffff;
-    padding: 4rem 0;
-    border-top: 1px solid #e2e8f0;
+/* RESPONSIVIDADE (MOBILE) */
+@media (max-width: 768px) {
+    .nav-container {
+        justify-content: center;
+    }
 }
 
-.steps-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 2rem;
-}
+@media (max-width: 480px) {
+    .container {
+        padding: 0 1rem;
+    }
 
-.step-card {
-    text-align: center;
-    padding: 1.5rem;
-}
+    .auth-container {
+        margin-top: 1.5rem;
+        margin-bottom: 1.5rem;
+    }
 
-.step-number {
-    width: 48px;
-    height: 48px;
-    background-color: var(--primary-color);
-    color: #ffffff;
-    font-size: 1.25rem;
-    font-weight: 800;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 0 auto 1rem;
-}
+    .card-form {
+        padding: 1.25rem 1rem;
+    }
 
-/* RODAPÉ */
-footer {
-    background-color: #0f172a;
-    color: #94a3b8;
-    padding: 2.5rem 0;
-    text-align: center;
-    font-size: 0.9rem;
+    .card-form h2 {
+        font-size: 1.35rem;
+    }
+
+    .auth-subtitle {
+        font-size: 0.88rem;
+        margin-bottom: 1.2rem;
+    }
+
+    .btn {
+        padding: 0.8rem 1rem; /* Área de toque ligeiramente maior para o dedo */
+    }
 }
