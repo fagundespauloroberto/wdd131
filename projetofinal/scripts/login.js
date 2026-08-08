@@ -109,10 +109,14 @@ async function realizarCadastro() {
     const senha = document.getElementById('senha').value;
 
     try {
-        // Step 1: Cria a conta de autenticação no Supabase Auth
+        // 01- Cria a conta de autenticação no Supabase Auth
         const { data: authData, error: authError } = await _supabase.auth.signUp({
             email: email,
-            password: senha
+            password: senha,
+            options: {
+            // Definimos aqui a página para onde o usuário será levado após clicar no e-mail
+            emailRedirectTo: 'https://fagundespauloroberto.github.io/wdd131/projetofinal/login.html'
+            }
         });
 
         if (authError) throw authError;
@@ -122,7 +126,7 @@ async function realizarCadastro() {
             throw new Error('Não foi possível obter o ID do novo usuário.');
         }
 
-        // Step 2: Cria o registro na tabela profiles com *TODOS* os campos
+        // 02- Cria o registro na tabela profiles com *TODOS* os campos
         const { error: profileError } = await _supabase
             .from('profiles')
             .insert([
