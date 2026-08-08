@@ -204,7 +204,7 @@ a {
         margin-bottom: 1.2rem;
     }
 
-    .btn {
-        padding: 0.8rem 1rem; /* Área de toque ligeiramente maior para o dedo */
+    .btn {   /* Área de toque ligeiramente maior para o dedo */
+        padding: 0.8rem 1rem; 
     }
 }
