@@ -26,7 +26,7 @@
                 <ul class="nav-links">
                     <li><a href="#pets">Quero Adotar</a></li>
                     <li><a href="#como-funciona">Como Funciona</a></li>
-                    <li><a href="#sobre">Sobre Nós</a></li>
+                    <li><a href="#sobre-nos">Sobre Nós</a></li>
                 </ul>
             </nav>
 
@@ -40,7 +40,7 @@
     <section class="hero">
         <div class="container hero-content">
             <h1>Conectando patas a novos lares 🐾</h1>
-            <p>Sua plataforma de adoção responsável. Encontre cães e gatos resgatados por ONGs e protetores próximos de você.</p>
+            <p>Sua plataforma de adoção responsável. Encontre seu novo amigo PET, resgatados por ONGs e protetores próximos de você.</p>
             
             <!-- BARRA DE FILTROS RÁPIDOS (Consulta Pública) -->
             <form class="search-bar">
@@ -50,6 +50,7 @@
                         <option value="">Todas</option>
                         <option value="cachorro">Cão</option>
                         <option value="gato">Gato</option>
+                        <option value="roedor">Roedores</option>
                         <option value="outro">Outros</option>
                     </select>
                 </div>
@@ -66,7 +67,18 @@
 
                 <div class="form-group">
                     <label for="cidade">Cidade/Estado</label>
-                    <input type="text" id="cidade" placeholder="Ex: Chapecó, SC">
+                    <input type="text" id="cidade" placeholder="Ex: Chapecó, Xaxim">
+                </div>
+
+                <div class="form-group">
+                    <label for="filtroStatus">Situação</label>
+                    <select id="situacao" name="situacao">
+                        <option value="Disponível" selected>Apenas Disponíveis</option>
+                        <option value="todos">Todos os Status</option>
+                        <option value="diferente_disponivel">Diferente de Disponível (Em Processo / Adotado)</option>
+                        <option value="Em Processo">Em Processo</option>
+                        <option value="Adotado">Adotados</option>
+                    </select>
                 </div>
 
                 <button type="submit" class="btn btn-primary">Buscar Pet</button>
@@ -78,7 +90,7 @@
     <main class="container" id="pets">
         <div class="section-title">
             <h2>Amigos esperando por um lar</h2>
-            <p>Conheça os animais disponíveis para adoção responsável</p>
+            <p>Conheça nossos amigos PETs disponíveis para adoção responsável.</p>
         </div>
 
         <div id="gridAnimais" class="pet-grid">
@@ -114,6 +126,26 @@
                     <h3>Adoção Responsável</h3>
                     <p>Combine a entrevista, visite o pet e faça a adoção consciente e cheia de carinho.</p>
                 </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="about-us" id="sobre-nos">
+        <div class="container">
+            <div class="section-title">
+                <h2>Sobre Nós</h2>
+            </div>
+            <div class="steps-grid">
+                <p>O Patinhas Conectadas é uma plataforma digital desenvolvida para conectar tutores, protetores independentes e
+                ONGs de animais de estimação a potenciais adotantes. O objetivo principal é desburocratizar e acelerar o
+                processo de adoção, oferecendo uma interface intuitiva, filtros de busca eficientes e um canal direto de
+                comunicação entre quem doa e quem busca um novo membro para a família.</p>
+                <p>Para os Doadores: Buscamos fornecer um painel de gerenciamento onde possam cadastrar seus pets, atualizar status
+                de adoção e organizar o histórico de cuidados, Pets, adotantes.
+                Para os Adotantes: Facilitar a busca por animais através de critérios geográficos (cidade/estado), porte e
+                espécie, tornando o processo de triagem rápido e humanizado.
+                Impacto: Reduzir o número de animais abandonados por meio da visibilidade digital e centralização de
+                contatos.</p>
             </div>
         </div>
     </section>

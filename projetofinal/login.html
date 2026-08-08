@@ -27,12 +27,23 @@
             </p>
 
             <form id="formAuth">
-                <!-- Campo exclusivo do cadastro -->
-                <div class="form-group" id="grupoNome" style="display: none;">
+                <!-- Campos Exclusivos do Cadastro (Escondidos por padrão no Login) -->
+                <div class="form-group campo-cadastro" id="grupoNome" style="display: none;">
                     <label for="nomeDoador">Nome Completo ou Nome da ONG *</label>
                     <input type="text" id="nomeDoador" placeholder="Ex: ONG Patas de Luz">
                 </div>
 
+                <div class="form-group campo-cadastro" id="grupoWhatsapp" style="display: none;">
+                    <label for="whatsapp">WhatsApp / Telefone *</label>
+                    <input type="tel" id="whatsapp" placeholder="(49) 99999-9999">
+                </div>
+
+                <div class="form-group campo-cadastro" id="grupoLocalizacao" style="display: none;">
+                    <label for="localizacao">Cidade / UF *</label>
+                    <input type="text" id="localizacao" placeholder="Ex: Xaxim - SC">
+                </div>
+
+                <!-- Campos Comuns (Login e Cadastro) -->
                 <div class="form-group">
                     <label for="email">E-mail *</label>
                     <input type="email" id="email" required placeholder="seu@email.com">

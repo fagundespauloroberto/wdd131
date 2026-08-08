@@ -10,7 +10,7 @@ let listaGeralAnimais = [];
 document.addEventListener('DOMContentLoaded', () => {
     carregarAnimais();
 
-    // Evento do formulário de busca/filtro
+    // Evento de submissão do formulário de busca/filtro
     const searchForm = document.querySelector('.search-bar');
     if (searchForm) {
         searchForm.addEventListener('submit', (e) => {
@@ -18,6 +18,15 @@ document.addEventListener('DOMContentLoaded', () => {
             aplicarFiltros();
         });
     }
+
+    // Escuta mudanças nos selects para aplicar o filtro em tempo real
+    const inputsFiltro = document.querySelectorAll('#especie, #porte, #localidade, #cadLocalizacao, #situacao, #filtroStatus');
+    inputsFiltro.forEach(input => {
+        input.addEventListener('change', aplicarFiltros);
+        if (input.tagName === 'INPUT') {
+            input.addEventListener('input', aplicarFiltros);
+        }
+    });
 });
 
 // Função utilitária para remover acentos e converter para minúsculas
@@ -34,7 +43,7 @@ async function carregarAnimais() {
     if (!gridAnimais) return;
 
     try {
-        // Adicionado 'localizacao' no select do relacionamento com profiles
+        // Busca todos os animais ordenados do mais recente para o mais antigo
         const { data: animais, error } = await _supabase
             .from('animais')
             .select(`
@@ -47,19 +56,20 @@ async function carregarAnimais() {
                 url_foto,
                 status,
                 doador_id,
-                profiles!fk_animais_profiles (
+                profiles (
                     nome,
                     whatsapp,
                     localizacao
                 )
             `)
-            .eq('status', 'Disponível')
             .order('id', { ascending: false });
 
         if (error) throw error;
 
         listaGeralAnimais = animais || [];
-        renderizarCards(listaGeralAnimais);
+        
+        // Aplica os filtros assim que carregar
+        aplicarFiltros();
 
     } catch (err) {
         console.error('Erro ao carregar lista de animais:', err);
@@ -82,20 +92,30 @@ function renderizarCards(animais) {
         const fotoUrl = (pet.url_foto && pet.url_foto.trim() !== '') ? pet.url_foto : FOTO_PADRAO;
         
         // Trata os dados do perfil do doador
-        const perfil = pet.profiles;
+        //const perfil = pet.profiles;
+        
+        // Tratamento seguro: Funciona se profiles for Objeto ou Array
+        const perfil = Array.isArray(pet.profiles) ? pet.profiles[0] : pet.profiles;
+        
         const nomeDoador = perfil?.nome || 'Doador Responsável';
         const localizacaoDoador = perfil?.localizacao || 'Localidade não informada';
         const numWhatsapp = perfil?.whatsapp ? perfil.whatsapp.replace(/\D/g, '') : '';
 
+        // Definir classe ou cor visual do badge de status
+        const statusTexto = pet.status || 'Disponível';
+        let badgeClass = 'status-disponivel';
+        if (statusTexto === 'Em Processo') badgeClass = 'status-processo';
+        if (statusTexto === 'Adotado') badgeClass = 'status-adotado';
+
         // Monta o link do WhatsApp
-        const mensagemWa = encodeURIComponent(`Olá ${nomeDoador}! Vi o anúncio do(a) ${pet.nome} no Patinhas Conectadas e gostaria de mais informações sobre a adoção.`);
+        const mensagemWa = encodeURIComponent(`Olá ${nomeDoador}! Vi o anúncio do(a) ${pet.nome} no Patinhas Conectadas e gostaria de mais informações.`);
         const linkWa = numWhatsapp ? `https://wa.me/55${numWhatsapp}?text=${mensagemWa}` : '#';
 
         const card = document.createElement('article');
         card.className = 'pet-card';
 
         card.innerHTML = `
-            <div class="pet-badge">${pet.status || 'Disponível'}</div>
+            <div class="pet-badge ${badgeClass}">${statusTexto}</div>
             <img src="${fotoUrl}" alt="Foto do pet ${pet.nome}" class="pet-image" onerror="this.onerror=null; this.src='${FOTO_PADRAO}';">
             
             <div class="pet-info">
@@ -107,10 +127,12 @@ function renderizarCards(animais) {
                 <p class="pet-location">📍 <strong>${localizacaoDoador}</strong></p>
                 <p class="pet-doador" style="font-size: 0.85rem; color: #64748b; margin-bottom: 1rem;">Responsável: ${nomeDoador}</p>
                 
-                ${numWhatsapp ? `
+                ${(statusTexto === 'Disponível' && numWhatsapp) ? `
                     <a href="${linkWa}" target="_blank" class="btn btn-whatsapp">
                         Quero Adotar (WhatsApp)
                     </a>
+                ` : (statusTexto !== 'Disponível') ? `
+                    <button class="btn btn-secondary" disabled>Pet ${statusTexto}</button>
                 ` : `
                     <button class="btn btn-secondary" disabled>Contato Indisponível</button>
                 `}
@@ -126,21 +148,40 @@ function aplicarFiltros() {
     const elEspecie = document.getElementById('especie');
     const elPorte = document.getElementById('porte');
     const elLocalidade = document.getElementById('localidade') || document.getElementById('cadLocalizacao');
+    const elSituacao = document.getElementById('situacao') || document.getElementById('filtroStatus');
 
     const filtroEspecie = elEspecie ? normalizarTexto(elEspecie.value) : '';
     const filtroPorte = elPorte ? normalizarTexto(elPorte.value) : '';
     const filtroLocalidade = elLocalidade ? normalizarTexto(elLocalidade.value) : '';
+    
+    // Captura a opção de situação selecionada
+    const valorSituacaoRaw = elSituacao ? elSituacao.value : '';
+    const filtroSituacao = normalizarTexto(valorSituacaoRaw);
 
     const filtrados = listaGeralAnimais.filter(pet => {
         const especiePet = normalizarTexto(pet.especie);
         const portePet = normalizarTexto(pet.porte);
         const localizacaoPet = normalizarTexto(pet.profiles?.localizacao);
+        const statusPet = normalizarTexto(pet.status || 'disponivel');
 
         const bateEspecie = !filtroEspecie || especiePet.includes(filtroEspecie);
         const batePorte = !filtroPorte || portePet.includes(filtroPorte);
         const bateLocalidade = !filtroLocalidade || localizacaoPet.includes(filtroLocalidade);
 
-        return bateEspecie && batePorte && bateLocalidade;
+        // Lógica para filtrar a situação/status do pet
+        let bateSituacao = true;
+
+        if (filtroSituacao && filtroSituacao !== 'todos') {
+            if (filtroSituacao === 'diferente_disponivel' || filtroSituacao.includes('diferente')) {
+                // Traz apenas pets com status DIFERENTE de 'disponivel'
+                bateSituacao = statusPet !== 'disponivel';
+            } else {
+                // Traz pela comparação exata do status selecionado (ex: 'disponivel', 'em processo', 'adotado')
+                bateSituacao = statusPet.includes(filtroSituacao);
+            }
+        }
+
+        return bateEspecie && batePorte && bateLocalidade && bateSituacao;
     });
 
     renderizarCards(filtrados);

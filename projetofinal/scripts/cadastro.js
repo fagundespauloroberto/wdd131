@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     const nomeDoador = metadata.nome_doador || usuarioLogado.email;
     const whatsappDoador = metadata.whatsapp || 'Não informado';
-    const localizacaoDoador = metadata.localizacao || 'Não informada';
+    //const localizacaoDoador = metadata.localizacao || 'Não informada';
     const tipoDoador = metadata.tipo || 'Doador Particular';
     const emailDoador = usuarioLogado.email;
 
@@ -86,19 +86,25 @@ document.addEventListener('DOMContentLoaded', async () => {
                 // Bloqueia o botão para evitar envio duplo
                 if (submitBtn) {
                     submitBtn.disabled = true;
-                    submitBtn.textContent = 'Cadastrando...';
+                    submitBtn.textContent = 'Otimizando imagem e cadastrando...';
                 }
 
-                // Upload da Imagem
+                // -------------------------------------------------------------
+                // COMPACTAÇÃO E CONVERSÃO DA IMAGEM PARA WEBP
+                // -------------------------------------------------------------
                 const file = fotoInput.files[0];
-                const fileExt = file.name.split('.').pop().toLowerCase();
-                const cleanName = file.name.replace(/[^a-zA-Z0-9]/g, '_');
-                const fileName = `${Date.now()}_${Math.random().toString(36).substring(2, 7)}.${fileExt}`;
+                
+                // Converte a imagem para WebP com tamanho máximo de 1080px e 80% de qualidade
+                const blobWebP = await compactarEConverterParaWebP(file, 1080, 0.8);
+
+                const fileName = `${Date.now()}_${Math.random().toString(36).substring(2, 7)}.webp`;
                 const filePath = `pets/${fileName}`;
 
+                // Upload do Blob WebP no Storage do Supabase
                 const { error: uploadError } = await _supabase.storage
                     .from('fotos-animais')
-                    .upload(filePath, file, {
+                    .upload(filePath, blobWebP, {
+                        contentType: 'image/webp',
                         cacheControl: '3600',
                         upsert: false
                     });
@@ -143,3 +149,58 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
     }
 });
+
+// =========================================================
+// FUNÇÃO AUXILIAR: COMPACTAR E CONVERTER PARA WEBP
+// =========================================================
+function compactarEConverterParaWebP(arquivoOriginal, maxDimensao = 1080, qualidade = 0.8) {
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+
+        reader.onload = (e) => {
+            const img = new Image();
+            img.onload = () => {
+                let largura = img.width;
+                let altura = img.height;
+
+                // Redimensiona mantendo a proporção (aspect ratio)
+                if (largura > maxDimensao || altura > maxDimensao) {
+                    if (largura > altura) {
+                        altura = Math.round((altura * maxDimensao) / largura);
+                        largura = maxDimensao;
+                    } else {
+                        largura = Math.round((largura * maxDimensao) / altura);
+                        altura = maxDimensao;
+                    }
+                }
+
+                // Renderiza a imagem no Canvas com as novas dimensões
+                const canvas = document.createElement('canvas');
+                canvas.width = largura;
+                canvas.height = altura;
+
+                const ctx = canvas.getContext('2d');
+                ctx.drawImage(img, 0, 0, largura, altura);
+
+                // Converte a área do Canvas para um Blob WebP
+                canvas.toBlob(
+                    (blob) => {
+                        if (blob) {
+                            resolve(blob);
+                        } else {
+                            reject(new Error('Falha ao processar a conversão da imagem para WebP.'));
+                        }
+                    },
+                    'image/webp',
+                    qualidade
+                );
+            };
+
+            img.onerror = () => reject(new Error('Não foi possível carregar a imagem selecionada.'));
+            img.src = e.target.result;
+        };
+
+        reader.onerror = () => reject(new Error('Erro ao ler arquivo do computador/celular.'));
+        reader.readAsDataURL(arquivoOriginal);
+    });
+}
