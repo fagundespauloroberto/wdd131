@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patinhas Conectadas 🐾 — Análise de Candidato a Tutor</title>
+    
+    <link rel="stylesheet" href="estilos/formulario.css">
+</head>
+<body>
+
+    <header class="navbar">
+        <div class="container nav-container">
+            <a href="index.html" class="logo">Patinhas Conectadas 🐾</a>
+            <ul class="nav-links">
+                <li><a href="index.html">Início</a></li>
+                <li><a href="cadastro.html">Cadastrar Pet</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <main class="container page-container">
+        <div class="card-form">
+            <h2>Formulário de Pré-Avaliação do Tutor</h2>
+            <p class="form-subtitle">
+                Preencha as informações abaixo para submeter sua candidatura de adoção à análise.
+            </p>
+
+            <form id="formCandidato">
+                <!-- Identificação e Contato -->
+                <div class="form-group">
+                    <label for="nome">Nome Completo *</label>
+                    <input type="text" id="nome" name="nome" required placeholder="Digite seu nome completo">
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="telefone">Telefone / WhatsApp *</label>
+                        <input type="tel" id="telefone" name="telefone" required placeholder="(00) 00000-0000">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="tempoCidade">Tempo residindo na cidade *</label>
+                        <input type="text" id="tempoCidade" name="tempoCidade" required placeholder="Ex: 5 anos, 6 meses">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="endereco">Endereço Completo *</label>
+                    <input type="text" id="endereco" name="endereco" required placeholder="Rua, Número, Bairro, Cidade - UF">
+                </div>
+
+                <!-- Detalhes da Moradia -->
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="tipoResidencia">Tipo de Residência *</label>
+                        <select id="tipoResidencia" name="tipoResidencia" required>
+                            <option value="">Selecione...</option>
+                            <option value="casa">Casa</option>
+                            <option value="apartamento">Apartamento</option>
+                            <option value="chacara">Chácara / Sítio</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="situacaoResidencia">Residência *</label>
+                        <select id="situacaoResidencia" name="situacaoResidencia" required>
+                            <option value="">Selecione...</option>
+                            <option value="propria">Própria</option>
+                            <option value="alugada">Alugada</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="tipoTerreno">Tipo do Terreno *</label>
+                        <select id="tipoTerreno" name="tipoTerreno" required>
+                            <option value="">Selecione...</option>
+                            <option value="cercado">Cercado / Totalmente murado</option>
+                            <option value="aberto">Aberto / Sem muros ou cercas</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Informações sobre outros animais -->
+                <div class="form-group">
+                    <label for="temOutrosAnimais">Possui outros animais de estimação? *</label>
+                    <select id="temOutrosAnimais" name="temOutrosAnimais" required>
+                        <option value="">Selecione...</option>
+                        <option value="nao">Não</option>
+                        <option value="sim">Sim</option>
+                    </select>
+                </div>
+
+                <div class="form-group" id="grupoAnimaisCadastrados">
+                    <label for="detalhesAnimais">Animais que possui (Espécie, Raça, Idade, Castrado)</label>
+                    <textarea id="detalhesAnimais" name="detalhesAnimais" rows="3" placeholder="Ex: 1 Cão Vira-lata (macho, castrado), 1 Gato Siames (fêmea, castrada)"></textarea>
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-full">
+                    Enviar para Análise
+                </button>
+            </form>
+        </div>
+    </main>
+
+</body>
+</html>
