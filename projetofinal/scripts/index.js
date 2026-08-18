@@ -142,6 +142,30 @@ function renderizarCards(animais) {
         const mensagemWa = encodeURIComponent(`Olá ${nomeDoador}! Vi o anúncio do(a) ${pet.nome} no Patinhas Conectadas e gostaria de mais informações.`);
         const linkWa = numWhatsapp ? `https://wa.me/55${numWhatsapp}?text=${mensagemWa}` : '#';
 
+        // Bloco de botões de ação (Candidato a Tutor + WhatsApp)
+        let htmlBotoes = '';
+        
+        if (statusTexto === 'Disponível') {
+            htmlBotoes = `
+                <div class="card-buttons">
+                    <a href="candidato.html?pet_id=${pet.id}" class="btn btn-candidato">
+                        📋 Quero ser Tutor
+                    </a>
+                    ${numWhatsapp ? `
+                        <a href="${linkWa}" target="_blank" class="btn btn-whatsapp">
+                            💬 Falar no WhatsApp
+                        </a>
+                    ` : ''}
+                </div>
+            `;
+        } else {
+            htmlBotoes = `
+                <div class="card-buttons">
+                    <button class="btn btn-secondary" disabled>Pet ${statusTexto}</button>
+                </div>
+            `;
+        }
+
         const card = document.createElement('article');
         card.className = 'pet-card';
 
@@ -158,19 +182,11 @@ function renderizarCards(animais) {
                 <p class="pet-location">📍 <strong>${localizacaoDoador}</strong></p>
                 <p class="pet-doador" style="font-size: 0.85rem; color: #64748b; margin-bottom: 1rem;">Responsável: ${nomeDoador}</p>
                 
-                ${(statusTexto === 'Disponível' && numWhatsapp) ? `
-                    <a href="${linkWa}" target="_blank" class="btn btn-whatsapp">
-                        Quero Adotar (WhatsApp)
-                    </a>
-                ` : (statusTexto !== 'Disponível') ? `
-                    <button class="btn btn-secondary" disabled>Pet ${statusTexto}</button>
-                ` : `
-                    <button class="btn btn-secondary" disabled>Contato Indisponível</button>
-                `}
+                ${htmlBotoes}
             </div>
         `;
 
-        // adicionamos o evento de click na imagem, para ampliar
+        // evento de click na imagem, para ampliar
         const imgElement = card.querySelector('.pet-image');
         if (imgElement) {
             imgElement.addEventListener('click', () => {
