@@ -213,3 +213,20 @@ a {
         padding: 0.8rem 1rem;
     }
 }
+
+/* AGRUPAMENTO DE SEÇÕES DO FORMULÁRIO */
+.form-section {
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 1.25rem;
+    margin-bottom: 1.5rem;
+    background-color: #ffffff;
+}
+
+.form-section legend {
+    font-family: var(--font-heading);
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--primary-color);
+    padding: 0 0.5rem;
+}

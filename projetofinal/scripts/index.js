@@ -148,7 +148,7 @@ function renderizarCards(animais) {
         if (statusTexto === 'Disponível') {
             htmlBotoes = `
                 <div class="card-buttons">
-                    <a href="candidato.html?pet_id=${pet.id}" class="btn btn-candidato">
+                    <a href="formulario.html?pet_id=${pet.id}" class="btn btn-candidato">
                         📋 Quero ser Tutor
                     </a>
                     ${numWhatsapp ? `
