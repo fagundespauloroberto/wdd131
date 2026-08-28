@@ -9,6 +9,9 @@ const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 let usuarioLogado = null;
 let meusPetsCache = [];
 
+// =========================================================
+// INICIALIZAÇÃO DA PÁGINA
+// =========================================================
 document.addEventListener('DOMContentLoaded', async () => {
     // 1. Verificar Autenticação
     const { data: { session } } = await _supabase.auth.getSession();
@@ -35,16 +38,105 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
     }
 
+    // Eventos do Modal de Candidatos (Fechamento)
+    const btnFecharCandidatos = document.getElementById('btnFecharModal');
+    const modalCandidatos = document.getElementById('modalCandidatos');
+
+    btnFecharCandidatos?.addEventListener('click', () => {
+        if (modalCandidatos) modalCandidatos.style.display = 'none';
+    });
+    
+    modalCandidatos?.addEventListener('click', (e) => {
+        if (e.target === modalCandidatos) modalCandidatos.style.display = 'none';
+    });
+
     // 2. Carregar Lista de Pets
     await carregarMeusPets();
 
-    // 3. Configurar Eventos do Modal e da Grid
+    // 3. Configurar Eventos dos Modais e da Grid
     configurarEventosModal();
     configurarEventosGrid();
 });
 
 // =========================================================
-// Filtro de Pets por Doador
+// MODAL DE CANDIDATOS (ESCOPO GLOBAL PARA FUNCIONAR NO ONCLICK)
+// =========================================================
+async function abrirCandidatosPet(petId, nomePet) {
+    const modal = document.getElementById('modalCandidatos');
+    const container = document.getElementById('containerCandidatos');
+    const titulo = document.getElementById('modalTituloPet');
+
+    if (!modal || !container) {
+        console.error('Elementos do modal de candidatos não foram encontrados no HTML.');
+        return;
+    }
+
+    if (titulo) titulo.innerText = `Candidatos para: ${nomePet}`;
+    container.innerHTML = '<p class="loading-text">Carregando candidatos...</p>';
+    modal.style.display = 'flex';
+
+    try {
+        const { data: candidatos, error } = await _supabase
+            .from('candidatos')
+            .select('*')
+            .eq('pet_id', petId)
+            .order('created_at', { ascending: false });
+
+        if (error) throw error;
+
+        if (!candidatos || candidatos.length === 0) {
+            container.innerHTML = '<p class="no-data">Nenhuma ficha enviada para este pet ainda.</p>';
+            return;
+        }
+
+        renderizarListaCandidatos(candidatos, container);
+
+    } catch (err) {
+        console.error('Erro ao buscar candidatos:', err);
+        container.innerHTML = '<p class="error-text">Erro ao carregar candidatos.</p>';
+    }
+}
+
+function renderizarListaCandidatos(candidatos, container) {
+    container.innerHTML = candidatos.map(c => {
+        const dataEnvio = new Date(c.created_at).toLocaleDateString('pt-BR');
+        
+        let detalheMoradia = `Residência ${(c.tipo_residencia || '').toUpperCase()} (${c.situacao_residencia || 'N/I'})`;
+        if (c.tipo_residencia === 'apto') {
+            detalheMoradia += ` | Telado: ${c.janelas_teladas === 'sim' ? 'Sim' : 'Não/Parcial'}`;
+        } else if (c.tipo_residencia === 'casa') {
+            detalheMoradia += ` | Cercada: ${c.casa_cercada === 'sim' ? 'Sim' : 'Não/Parcial'}`;
+        }
+
+        let detalhePets = c.teve_animais === 'sim' 
+            ? `${c.quais_e_quantos || 'Sim'} (Castrados: ${c.sao_castrados || 'N/I'}, Vacinados: ${c.sao_vacinados || 'N/I'})` 
+            : 'Primeiro animal';
+
+        return `
+            <div class="candidato-card">
+                <div class="candidato-header">
+                    <h4>${c.nome}</h4>
+                    <span class="candidato-data">Enviado em: ${dataEnvio}</span>
+                </div>
+                <div class="candidato-grid">
+                    <p><strong>Cidade/Bairro:</strong> ${c.cidade || ''} - ${c.bairro || ''}</p>
+                    <p><strong>Profissão:</strong> ${c.profissao || ''} (${c.local_trabalho || ''})</p>
+                    <p><strong>Estado Civil:</strong> ${c.estado_civil || ''} ${c.nome_conjuge ? `(Cônjuge: ${c.nome_conjuge})` : ''}</p>
+                    <p><strong>Tempo no local:</strong> ${c.tempo_residencia || ''}</p>
+                    <p style="grid-column: span 2;"><strong>Moradia:</strong> ${detalheMoradia}</p>
+                    <p style="grid-column: span 2;"><strong>Histórico Pets:</strong> ${detalhePets}</p>
+                </div>
+            </div>
+        `;
+    }).join('');
+}
+
+// Explicitando a inclusão das funções na janela global
+window.abrirCandidatosPet = abrirCandidatosPet;
+window.renderizarListaCandidatos = renderizarListaCandidatos;
+
+// =========================================================
+// FILTRO E GRID DE PETS
 // =========================================================
 async function carregarMeusPets() {
     const gridContainer = document.getElementById('gridMeusPets');
@@ -104,6 +196,7 @@ function renderizarGridPets(pets) {
                     <div class="pet-card-actions">
                         <button class="btn btn-secondary btn-editar-pet" style="flex: 1;" data-id="${pet.id}">✏️ Editar</button>
                         <button class="btn btn-secondary btn-excluir-pet" style="color: #ef4444; border-color: #fee2e2;" data-id="${pet.id}" data-nome="${pet.nome}">🗑️ Excluir</button>
+                        <button class="btn-candidatos-count" onclick="abrirCandidatosPet(${pet.id}, '${pet.nome.replace(/'/g, "\\'")}')">📋 Ver Candidatos Recebidos</button>
                     </div>
                 </div>
             </div>
@@ -113,7 +206,7 @@ function renderizarGridPets(pets) {
 }
 
 // =========================================================
-// Eventos do Grid (editar / excluir)
+// EVENTOS DO GRID (EDITAR / EXCLUIR)
 // =========================================================
 function configurarEventosGrid() {
     const gridContainer = document.getElementById('gridMeusPets');
@@ -137,7 +230,7 @@ function configurarEventosGrid() {
 }
 
 // =========================================================
-// Edição PEts
+// EDIÇÃO DE PETS
 // =========================================================
 const modalEdicao = document.getElementById('modalEdicao');
 
@@ -183,7 +276,6 @@ function configurarEventosModal() {
         });
     }
 
-    // Submissão da Edição
     const formEdicao = document.getElementById('formEdicaoPet');
     if (formEdicao) {
         formEdicao.addEventListener('submit', async (e) => {
@@ -231,7 +323,6 @@ function configurarEventosModal() {
                     dadosAtualizados.url_foto = novaUrlFoto;
                 }
 
-                // Executa o UPDATE no Supabase
                 const { error: dbError } = await _supabase
                     .from('animais')
                     .update(dadosAtualizados)
@@ -256,7 +347,7 @@ function configurarEventosModal() {
 }
 
 // =========================================================
-// Excluir PEt
+// EXCLUIR PET
 // =========================================================
 async function excluirPet(idPet, nomePet) {
     const confirmou = confirm(`Tem certeza que deseja excluir o anúncio de "${nomePet}"? Esta ação não poderá ser desfeita.`);
