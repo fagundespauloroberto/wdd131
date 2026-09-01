@@ -128,3 +128,108 @@
     border-top: 1px solid #e2e8f0;
     padding-top: 1rem;
 }
+
+/* MODAL DE CANDIDATOS */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(15, 23, 42, 0.65);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    padding: 1rem;
+}
+
+.modal-card {
+    background: #ffffff;
+    border-radius: 10px;
+    width: 100%;
+    max-width: 680px;
+    max-height: 85vh;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+}
+
+.modal-header {
+    padding: 1.2rem 1.5rem;
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.modal-header h3 {
+    color: var(--primary-color);
+    font-size: 1.25rem;
+}
+
+.btn-fechar {
+    background: none;
+    border: none;
+    font-size: 1.8rem;
+    cursor: pointer;
+    color: var(--text-muted);
+}
+
+.modal-body {
+    padding: 1.5rem;
+    overflow-y: auto;
+}
+
+/* CARDS DE CANDIDATOS NA LISTA */
+.candidato-card {
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 1.2rem;
+    margin-bottom: 1rem;
+    background-color: var(--bg-color);
+}
+
+.candidato-header {
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 0.5rem;
+    margin-bottom: 0.8rem;
+}
+
+.candidato-header h4 {
+    color: var(--primary-color);
+}
+
+.candidato-data {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+}
+
+.candidato-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.5rem 1rem;
+    font-size: 0.9rem;
+}
+
+.candidato-grid p {
+    margin: 0;
+}
+
+/* BOTÃO DE AÇÃO NO CARD DO PET */
+.btn-candidatos-count {
+    background-color: var(--primary-color);
+    color: #ffffff;
+    border: none;
+    padding: 0.5rem 0.8rem;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    cursor: pointer;
+    margin-top: 0.5rem;
+}
+
+.btn-candidatos-count:hover {
+    background-color: var(--accent-color);
+}
