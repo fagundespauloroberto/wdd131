@@ -460,3 +460,46 @@ footer {
         width: 100%;
     }
 }
+
+/* CONTAINER DE BOTÕES DENTRO DO CARD DO PET */
+.card-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-top: 1rem;
+}
+
+/* BOTÃO DE PRÉ-AVALIAÇÃO DO TUTOR */
+.btn-candidato {
+    background-color: var(--primary-color);
+    color: #ffffff;
+    width: 100%;
+    font-size: 0.9rem;
+    padding: 0.65rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+}
+
+.btn-candidato:hover {
+    background-color: var(--primary-hover);
+}
+
+/* REAJUSTE DO BOTÃO WHATSAPP */
+.btn-whatsapp {
+    background-color: var(--whatsapp-color);
+    color: #ffffff;
+    width: 100%;
+    margin-top: 0; /* Margem controlada pelo gap do container */
+    font-size: 0.9rem;
+    padding: 0.65rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+}
+
+.btn-whatsapp:hover {
+    background-color: var(--whatsapp-hover);
+}

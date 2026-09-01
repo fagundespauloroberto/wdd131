@@ -6,6 +6,9 @@
     <title>Patinhas Conectadas 🐾 — Análise de Candidato a Tutor</title>
     
     <link rel="stylesheet" href="estilos/formulario.css">
+    <!-- Supabase SDK e Script do Candidato -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="scripts/formulario.js" defer></script>
 </head>
 <body>
 
@@ -23,81 +26,208 @@
         <div class="card-form">
             <h2>Formulário de Pré-Avaliação do Tutor</h2>
             <p class="form-subtitle">
-                Preencha as informações abaixo para submeter sua candidatura de adoção à análise.
+                Preencha as informações abaixo para submeter sua candidatura de adoção.
             </p>
 
             <form id="formCandidato">
-                <!-- Identificação e Contato -->
-                <div class="form-group">
-                    <label for="nome">Nome Completo *</label>
-                    <input type="text" id="nome" name="nome" required placeholder="Digite seu nome completo">
-                </div>
-
-                <div class="form-row">
+                <!-- SEÇÃO 1: Dados Pessoais e Profissionais -->
+                <fieldset class="form-section">
+                    <legend>1. Dados Pessoais e Profissionais</legend>
+                    
                     <div class="form-group">
-                        <label for="telefone">Telefone / WhatsApp *</label>
-                        <input type="tel" id="telefone" name="telefone" required placeholder="(00) 00000-0000">
+                        <label for="nome">Nome Completo *</label>
+                        <input type="text" id="nome" name="nome" required placeholder="Digite seu nome completo">
                     </div>
 
-                    <div class="form-group">
-                        <label for="tempoCidade">Tempo residindo na cidade *</label>
-                        <input type="text" id="tempoCidade" name="tempoCidade" required placeholder="Ex: 5 anos, 6 meses">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="dataNascimento">Data de Nascimento *</label>
+                            <input type="date" id="dataNascimento" name="dataNascimento" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="estadoCivil">Estado Civil *</label>
+                            <select id="estadoCivil" name="estadoCivil" required>
+                                <option value="">Selecione...</option>
+                                <option value="solteiro">Solteiro(a)</option>
+                                <option value="casado">Casado(a) / União Estável</option>
+                                <option value="divorciado">Divorciado(a)</option>
+                                <option value="viuvo">Viúvo(a)</option>
+                            </select>
+                        </div>
                     </div>
-                </div>
 
-                <div class="form-group">
-                    <label for="endereco">Endereço Completo *</label>
-                    <input type="text" id="endereco" name="endereco" required placeholder="Rua, Número, Bairro, Cidade - UF">
-                </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="profissao">Profissão *</label>
+                            <input type="text" id="profissao" name="profissao" required placeholder="Ex: Desenvolvedor, Enfermeira">
+                        </div>
 
-                <!-- Detalhes da Moradia -->
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="tipoResidencia">Tipo de Residência *</label>
-                        <select id="tipoResidencia" name="tipoResidencia" required>
+                        <div class="form-group">
+                            <label for="localTrabalho">Local em que trabalha *</label>
+                            <input type="text" id="localTrabalho" name="localTrabalho" required placeholder="Nome da empresa ou 'Home Office'">
+                        </div>
+                    </div>
+
+                    <!-- Campos Condicionais do Cônjuge -->
+                    <div id="grupoConjuge" class="form-row" style="display: none;">
+                        <div class="form-group">
+                            <label for="nomeConjuge">Nome do Cônjuge</label>
+                            <input type="text" id="nomeConjuge" name="nomeConjuge" placeholder="Nome completo do cônjuge">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="profissaoConjuge">Profissão do Cônjuge</label>
+                            <input type="text" id="profissaoConjuge" name="profissaoConjuge" placeholder="Profissão do cônjuge">
+                        </div>
+                    </div>
+                </fieldset>
+
+                <!-- SEÇÃO 2: Endereço e Condições da Moradia -->
+                <fieldset class="form-section">
+                    <legend>2. Moradia e Infraestrutura</legend>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="cidade">Cidade em que reside *</label>
+                            <input type="text" id="cidade" name="cidade" required placeholder="Ex: Xaxim - SC">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="bairro">Bairro *</label>
+                            <input type="text" id="bairro" name="bairro" required placeholder="Digite o bairro">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="tipoResidencia">Tipo de Residência *</label>
+                            <select id="tipoResidencia" name="tipoResidencia" required>
+                                <option value="">Selecione...</option>
+                                <option value="casa">Casa</option>
+                                <option value="apto">Apartamento</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="situacaoResidencia">Residência Própria ou Alugada? *</label>
+                            <select id="situacaoResidencia" name="situacaoResidencia" required>
+                                <option value="">Selecione...</option>
+                                <option value="propria">Própria</option>
+                                <option value="alugada">Alugada</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="tempoResidencia">Há quanto tempo reside no local? *</label>
+                            <input type="text" id="tempoResidencia" name="tempoResidencia" required placeholder="Ex: 2 anos">
+                        </div>
+                    </div>
+
+                    <!-- Condicional: Permissão do Proprietário (Se alugada) -->
+                    <div id="grupoAlugada" class="form-group" style="display: none;">
+                        <label for="proprietarioPermite">Em caso de residência alugada, o proprietário permite animais no local? *</label>
+                        <select id="proprietarioPermite" name="proprietarioPermite">
                             <option value="">Selecione...</option>
-                            <option value="casa">Casa</option>
-                            <option value="apartamento">Apartamento</option>
-                            <option value="chacara">Chácara / Sítio</option>
+                            <option value="sim">Sim, permite</option>
+                            <option value="nao">Não permite</option>
+                            <option value="em_analise">Preciso consultar</option>
                         </select>
                     </div>
 
+                    <!-- Condicional: Especificidades de Apartamento -->
+                    <div id="grupoApto" style="display: none;">
+                        <div class="form-group">
+                            <label for="sindicoPermite">O síndico/condomínio permite animais? *</label>
+                            <select id="sindicoPermite" name="sindicoPermite">
+                                <option value="">Selecione...</option>
+                                <option value="sim">Sim</option>
+                                <option value="nao">Não</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="janelasTeladas">O apartamento possui janelas e sacadas teladas? *</label>
+                            <select id="janelasTeladas" name="janelasTeladas">
+                                <option value="">Selecione...</option>
+                                <option value="sim">Sim, todas protegidas</option>
+                                <option value="parcial">Parcialmente protegidas</option>
+                                <option value="nao">Não possui telas</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Condicional: Especificidades de Casa -->
+                    <div id="grupoCasa" style="display: none;">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="possuiPatio">A casa possui pátio/quintal? *</label>
+                                <select id="possuiPatio" name="possuiPatio">
+                                    <option value="">Selecione...</option>
+                                    <option value="sim">Sim</option>
+                                    <option value="nao">Não</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="casaCercada">É cercada / totalmente murada? *</label>
+                                <select id="casaCercada" name="casaCercada">
+                                    <option value="">Selecione...</option>
+                                    <option value="sim">Sim, totalmente fechada</option>
+                                    <option value="parcial">Parcialmente fechada</option>
+                                    <option value="aberto">Aberta / Sem muro ou cerca</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
+
+                <!-- SEÇÃO 3: Histórico com Animais -->
+                <fieldset class="form-section">
+                    <legend>3. Histórico com Animais</legend>
+
                     <div class="form-group">
-                        <label for="situacaoResidencia">Residência *</label>
-                        <select id="situacaoResidencia" name="situacaoResidencia" required>
+                        <label for="teveAnimais">Você já teve ou tem algum animal de estimação? *</label>
+                        <select id="teveAnimais" name="teveAnimais" required>
                             <option value="">Selecione...</option>
-                            <option value="propria">Própria</option>
-                            <option value="alugada">Alugada</option>
+                            <option value="nao">Não, será o primeiro</option>
+                            <option value="sim">Sim</option>
                         </select>
                     </div>
 
-                    <div class="form-group">
-                        <label for="tipoTerreno">Tipo do Terreno *</label>
-                        <select id="tipoTerreno" name="tipoTerreno" required>
-                            <option value="">Selecione...</option>
-                            <option value="cercado">Cercado / Totalmente murado</option>
-                            <option value="aberto">Aberto / Sem muros ou cercas</option>
-                        </select>
+                    <!-- Condicional: Detalhes dos Animais -->
+                    <div id="grupoDetalhesAnimais" style="display: none;">
+                        <div class="form-group">
+                            <label for="quaisEQuantos">Quais e quantos animais você possui ou já teve? *</label>
+                            <textarea id="quaisEQuantos" name="quaisEQuantos" rows="2" placeholder="Ex: 2 cães sem raça definida, 1 gato"></textarea>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="saoCastrados">São / eram castrados? *</label>
+                                <select id="saoCastrados" name="saoCastrados">
+                                    <option value="">Selecione...</option>
+                                    <option value="sim_todos">Sim, todos</option>
+                                    <option value="alguns">Apenas alguns</option>
+                                    <option value="nao">Não</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="saoVacinados">São / eram vacinados (V10/V4 e Antirrábica)? *</label>
+                                <select id="saoVacinados" name="saoVacinados">
+                                    <option value="">Selecione...</option>
+                                    <option value="sim_em_dia">Sim, carteira em dia</option>
+                                    <option value="alguns">Apenas alguns</option>
+                                    <option value="nao">Não</option>
+                                </select>
+                            </div>
+                        </div>
                     </div>
-                </div>
-
-                <!-- Informações sobre outros animais -->
-                <div class="form-group">
-                    <label for="temOutrosAnimais">Possui outros animais de estimação? *</label>
-                    <select id="temOutrosAnimais" name="temOutrosAnimais" required>
-                        <option value="">Selecione...</option>
-                        <option value="nao">Não</option>
-                        <option value="sim">Sim</option>
-                    </select>
-                </div>
-
-                <div class="form-group" id="grupoAnimaisCadastrados">
-                    <label for="detalhesAnimais">Animais que possui (Espécie, Raça, Idade, Castrado)</label>
-                    <textarea id="detalhesAnimais" name="detalhesAnimais" rows="3" placeholder="Ex: 1 Cão Vira-lata (macho, castrado), 1 Gato Siames (fêmea, castrada)"></textarea>
-                </div>
+                </fieldset>
 
                 <button type="submit" class="btn btn-primary btn-full">
-                    Enviar para Análise
+                    Enviar Ficha para Análise
                 </button>
             </form>
         </div>
