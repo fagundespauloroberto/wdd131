@@ -1,6 +1,6 @@
-// =========================================================
+//********************************* */
 // CONFIGURAÇÃO DO CLIENTE SUPABASE
-// =========================================================
+//********************************* */
 const SUPABASE_URL = 'https://wasodctryfmajucxsqed.supabase.co';
 const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Indhc29kY3RyeWZtYWp1Y3hzcWVkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQ3MTMyOTEsImV4cCI6MjEwMDI4OTI5MX0.5hQepY49znD3ENz1eGPaFSa9n2Or0PBng5VMuvini7o';
 
@@ -27,7 +27,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const tipoDoador = metadata.tipo || 'Doador Particular';
     const emailDoador = usuarioLogado.email;
 
-    // Exibir dados do usuário no menu e na interface
+    //exibir dados do usuário no menu e na interface
     const userEmailNav = document.getElementById('userEmailNav');
     if (userEmailNav) userEmailNav.textContent = emailDoador;
 
@@ -50,7 +50,8 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
     }
 
-    // 3. Garantir/Sincronizar perfil completo na tabela 'profiles'
+    //********************************************************* */
+    //Garantir/Sincronizar perfil completo na tabela 'profiles'
     try {
         const { error: profileError } = await _supabase.from('profiles').upsert({
             id: usuarioLogado.id,
@@ -68,7 +69,8 @@ document.addEventListener('DOMContentLoaded', async () => {
         console.error('Erro ao salvar dados em profiles:', errPerfil);
     }
 
-    // 4. Manipular o envio do formulário de cadastro do pet
+    //*************************************************** */
+    // Manipular o envio do formulário de cadastro do pet
     const formAnimal = document.getElementById('formAnimal');
     if (formAnimal) {
         formAnimal.addEventListener('submit', async (e) => {
@@ -89,9 +91,9 @@ document.addEventListener('DOMContentLoaded', async () => {
                     submitBtn.textContent = 'Otimizando imagem e cadastrando...';
                 }
 
-                // -------------------------------------------------------------
+                //******************************************** */
                 // COMPACTAÇÃO E CONVERSÃO DA IMAGEM PARA WEBP
-                // -------------------------------------------------------------
+                //********************************************** */
                 const file = fotoInput.files[0];
                 
                 // Converte a imagem para WebP com tamanho máximo de 1080px e 80% de qualidade
@@ -150,9 +152,9 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 });
 
-// =========================================================
-// FUNÇÃO AUXILIAR: COMPACTAR E CONVERTER PARA WEBP
-// =========================================================
+//******************************* */
+//COMPACTA E CONVERTE PARA WEBP
+//****************************** */
 function compactarEConverterParaWebP(arquivoOriginal, maxDimensao = 1080, qualidade = 0.8) {
     return new Promise((resolve, reject) => {
         const reader = new FileReader();

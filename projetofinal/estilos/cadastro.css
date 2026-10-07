@@ -2,12 +2,14 @@
    ESTILOS GERAIS & VARIÁVEIS
   ********************************************** */
 :root {
-    --primary-color: #1E3A8A;
-    --accent-color: #3B82F6;
+    --primary-color: #0D9488;
+    --secondary-color: #F97316;
+    --bg-color: #F8FAFC;
+    --text-color: #1E293B;
+    --card-bg: #FFFFFF;
+    --border-color: #E2E8F0;
+    --accent-color: #3f29be;
     --accent-hover: #ea580c;
-    --bg-color: #f8fafc;
-    --card-bg: #ffffff;
-    --text-color: #1e293b;
     --text-muted: #64748b;
     --border-color: #e2e8f0;
     

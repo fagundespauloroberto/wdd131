@@ -1,6 +1,6 @@
-// =========================================================
+//********************************* */
 // CONFIGURAÇÃO DO CLIENTE SUPABASE
-// =========================================================
+//********************************** */
 const SUPABASE_URL = 'https://wasodctryfmajucxsqed.supabase.co';
 const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Indhc29kY3RyeWZtYWp1Y3hzcWVkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQ3MTMyOTEsImV4cCI6MjEwMDI4OTI5MX0.5hQepY49znD3ENz1eGPaFSa9n2Or0PBng5VMuvini7o';
 
@@ -9,9 +9,9 @@ const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 let usuarioLogado = null;
 let meusPetsCache = [];
 
-// =========================================================
+//****************************** */
 // INICIALIZAÇÃO DA PÁGINA
-// =========================================================
+//******************************** */
 document.addEventListener('DOMContentLoaded', async () => {
     // 1. Verificar Autenticação
     const { data: { session } } = await _supabase.auth.getSession();
@@ -58,9 +58,9 @@ document.addEventListener('DOMContentLoaded', async () => {
     configurarEventosGrid();
 });
 
-// =========================================================
+// ************************************************
 // MODAL DE CANDIDATOS (ESCOPO GLOBAL PARA FUNCIONAR NO ONCLICK)
-// =========================================================
+// ***********************************************
 async function abrirCandidatosPet(petId, nomePet) {
     const modal = document.getElementById('modalCandidatos');
     const container = document.getElementById('containerCandidatos');
@@ -135,9 +135,9 @@ function renderizarListaCandidatos(candidatos, container) {
 window.abrirCandidatosPet = abrirCandidatosPet;
 window.renderizarListaCandidatos = renderizarListaCandidatos;
 
-// =========================================================
+//*****************************
 // FILTRO E GRID DE PETS
-// =========================================================
+// ****************************
 async function carregarMeusPets() {
     const gridContainer = document.getElementById('gridMeusPets');
 
@@ -194,7 +194,7 @@ function renderizarGridPets(pets) {
                         ${pet.descricao}
                     </p>
                     <div class="pet-card-actions">
-                        <button class="btn btn-secondary btn-editar-pet" style="flex: 1;" data-id="${pet.id}">✏️ Editar</button>
+                        <button class="btn btn-secondary btn-editar-pet" style="color: #44ef9f; border-color: #fee2e2;" data-id="${pet.id}">✏️ Editar</button>
                         <button class="btn btn-secondary btn-excluir-pet" style="color: #ef4444; border-color: #fee2e2;" data-id="${pet.id}" data-nome="${pet.nome}">🗑️ Excluir</button>
                         <button class="btn-candidatos-count" onclick="abrirCandidatosPet(${pet.id}, '${pet.nome.replace(/'/g, "\\'")}')">📋 Ver Candidatos Recebidos</button>
                     </div>
@@ -205,9 +205,9 @@ function renderizarGridPets(pets) {
     });
 }
 
-// =========================================================
+//*********************************** */
 // EVENTOS DO GRID (EDITAR / EXCLUIR)
-// =========================================================
+//*********************************** */
 function configurarEventosGrid() {
     const gridContainer = document.getElementById('gridMeusPets');
     if (!gridContainer) return;
@@ -229,9 +229,9 @@ function configurarEventosGrid() {
     });
 }
 
-// =========================================================
+//********************** 
 // EDIÇÃO DE PETS
-// =========================================================
+//********************* */
 const modalEdicao = document.getElementById('modalEdicao');
 
 function abrirModalEdicao(idPet) {
@@ -346,9 +346,9 @@ function configurarEventosModal() {
     }
 }
 
-// =========================================================
+// *****************
 // EXCLUIR PET
-// =========================================================
+// ******************
 async function excluirPet(idPet, nomePet) {
     const confirmou = confirm(`Tem certeza que deseja excluir o anúncio de "${nomePet}"? Esta ação não poderá ser desfeita.`);
     if (!confirmou) return;

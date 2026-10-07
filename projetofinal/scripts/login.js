@@ -74,9 +74,9 @@ function alternarModoFormulario() {
     });
 }
 
-// ********************************************************
+// ******************
 // 1. Login site
-// ******************************************************
+// ****************
 async function realizarLogin() {
     const email = document.getElementById('email').value.trim();
     const senha = document.getElementById('senha').value;
